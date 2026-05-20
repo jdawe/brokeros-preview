@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrokerOS · The Monday Brief for Brokerages</title>
+<meta name="description" content="Two reports, every Monday at 7am, built from MLS data. $500 a month, brokerage flat. Set up in ten minutes.">
+<meta property="og:title" content="BrokerOS · The Monday Brief for Brokerages">
+<meta property="og:description" content="Two reports, every Monday at 7am, built from MLS data. $500 a month, brokerage flat. Set up in ten minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:        #F4ECD8;
+  --cream-light:  #FAF4E4;
+  --cream-soft:   #EDE2C7;
+  --cream-deep:   #E3D5B2;
+  --paper:        #FBF7EB;
+  --green-ink:    #1B2E24;
+  --green-dark:   #24402F;
+  --green-mid:    #3A5F48;
+  --green-soft:   #7A9A85;
+  --green-line:   rgba(27, 46, 36, 0.12);
+  --ochre:        #B07A3A;
+  --ochre-soft:   #C89A5E;
+  --ink:          #1A1D1B;
+  --ink-soft:     #4A4F4A;
+  --ink-mute:     #7A7B74;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---------- Nav ---------- */
+nav {
+  position: sticky;
+  top: 0;
+  background: rgba(244, 236, 216, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--green-line);
+  z-index: 50;
+}
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.brand {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--green-ink);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+.brand em { color: var(--ochre); font-style: italic; }
+.nav-cta {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--green-line);
+  padding-bottom: 2px;
+}
+.nav-cta:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
+
+/* ---------- Hero ---------- */
+.hero { padding: 120px 0 80px; }
+.eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+  opacity: 0.78;
+  margin-bottom: 32px;
+}
+h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(48px, 7.2vw, 104px);
+  font-weight: 300;
+  color: var(--green-ink);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  max-width: 15ch;
+  margin-bottom: 36px;
+}
+h1 em {
+  color: var(--ochre);
+  font-style: italic;
+  font-weight: 300;
+  display: block;
+}
+.hero-sub {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(18px, 1.8vw, 22px);
+  color: var(--ink-soft);
+  line-height: 1.45;
+  max-width: 34em;
+  margin-bottom: 44px;
+}
+.cta-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  background: var(--green-ink);
+  color: var(--cream);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+.btn-primary:hover { background: var(--green-mid); }
+.btn-primary .arrow { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+.btn-secondary {
+  color: var(--green-ink);
+  text-decoration: none;
+  font-style: italic;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 16px;
+  border-bottom: 1px solid var(--green-line);
+  padding-bottom: 2px;
+}
+.btn-secondary:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
+
+/* ---------- Section base ---------- */
+section { padding: 100px 0; }
+.section-kicker {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 24px;
+  display: inline-block;
+}
+h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 300;
+  color: var(--green-ink);
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  max-width: 22ch;
+  margin-bottom: 40px;
+}
+h2 em { color: var(--ochre); font-style: italic; font-weight: 300; }
+.section-divider { border: none; border-top: 1px solid var(--green-line); }
+
+/* ---------- Two reports ---------- */
+.reports-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 24px;
+}
+.report-card {
+  background: var(--paper);
+  border: 1px solid var(--green-line);
+  padding: 40px;
+  border-radius: 4px;
+}
+.report-card .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 18px;
+  display: block;
+}
+.report-card h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--green-ink);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+.report-card .audience {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin-bottom: 22px;
+}
+.report-card p { font-size: 15.5px; color: var(--ink); margin-bottom: 14px; max-width: none; }
+.report-card .punch {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--green-ink);
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--green-line);
+}
+
+/* ---------- How it works ---------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.step .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--ochre);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  display: block;
+}
+.step h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--green-ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.step p { color: var(--ink-soft); font-size: 15px; max-width: none; }
+
+/* ---------- Pricing tile ---------- */
+.pricing-section { padding: 80px 0; }
+.pricing-tile {
+  background: var(--green-ink);
+  color: var(--cream);
+  padding: 64px 56px;
+  border-radius: 4px;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.pricing-tile .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ochre-soft);
+  margin-bottom: 28px;
+  display: block;
+}
+.pricing-tile .price {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 300;
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  color: var(--cream);
+}
+.pricing-tile .price span {
+  font-size: 22px;
+  color: var(--cream-soft);
+  opacity: 0.7;
+}
+.pricing-tile .sub {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--cream-soft);
+  opacity: 0.85;
+  margin-bottom: 32px;
+}
+.pricing-tile .terms {
+  font-size: 13.5px;
+  color: var(--cream-soft);
+  opacity: 0.7;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+.pricing-tile .btn-pricing {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: var(--ochre);
+  color: var(--green-ink);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+.pricing-tile .btn-pricing:hover { background: var(--ochre-soft); }
+.founding {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  color: var(--cream-soft);
+  font-size: 14px;
+  margin-top: 24px;
+  opacity: 0.7;
+}
+
+/* ---------- Objections ---------- */
+.objections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+}
+.obj h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 19px;
+  color: var(--green-ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.obj p { font-size: 15px; color: var(--ink-soft); max-width: none; }
+.faq-link {
+  margin-top: 40px;
+  text-align: center;
+}
+.faq-link a {
+  color: var(--green-ink);
+  font-style: italic;
+  font-family: 'Fraunces', Georgia, serif;
+  text-decoration: none;
+  border-bottom: 1px solid var(--green-line);
+  padding-bottom: 2px;
+}
+.faq-link a:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
+
+/* ---------- Footer ---------- */
+footer {
+  border-top: 1px solid var(--green-line);
+  padding: 40px 0 60px;
+  margin-top: 60px;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+}
+.footer-inner .domain { color: var(--ochre); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 760px) {
+  .reports-grid { grid-template-columns: 1fr; gap: 24px; }
+  .steps { grid-template-columns: 1fr; gap: 32px; }
+  .objections { grid-template-columns: 1fr; gap: 28px; }
+  section { padding: 70px 0; }
+  .hero { padding: 80px 0 50px; }
+  .pricing-tile { padding: 48px 28px; }
+  .pricing-tile .price { font-size: 56px; }
+  .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="brand">Broker<em>OS</em></a>
+    <a href="#signup" class="nav-cta">Start your Monday</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow">The Monday Brief, for brokerages</div>
+    <h1>See your market.<br>See your roster.<em>Every Monday at 7am.</em></h1>
+    <p class="hero-sub">Every Monday morning, two reports built from MLS data land in your inbox. One for your whole brokerage. One for the broker only. Five hundred dollars a month, brokerage flat. Set up in ten minutes.</p>
+    <div class="cta-row">
+      <a href="#signup" class="btn-primary">Start your first Monday <span class="arrow">→</span></a>
+      <a href="#reports" class="btn-secondary">Read a sample first.</a>
+    </div>
+  </div>
+</header>
+
+<hr class="section-divider"/>
+
+<section id="reports">
+  <div class="container">
+    <span class="section-kicker">The surface · two reports</span>
+    <h2>Two emails. <em>Five minutes of reading.</em></h2>
+
+    <div class="reports-grid">
+      <article class="report-card">
+        <span class="label">Report 01</span>
+        <h3>The Market Report</h3>
+        <p class="audience">For everyone.</p>
+        <p>Median sale price, months of inventory, days on market, supply versus demand. Region and city level. Written, not just charted.</p>
+        <p class="punch">The kind of brief your agents will actually forward to their sphere.</p>
+      </article>
+
+      <article class="report-card">
+        <span class="label">Report 02</span>
+        <h3>The Roster Report</h3>
+        <p class="audience">For brokers only.</p>
+        <p>Your agents' production for the week. Your market share by zip. The top producers in your zips who are not on your roster. Which of your agents went silent on MLS this week.</p>
+        <p class="punch">The recruit watch is the one that earns the subscription.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider"/>
+
+<section id="how">
+  <div class="container">
+    <span class="section-kicker">How it works</span>
+    <h2>Three steps. <em>Ten minutes.</em></h2>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">01</span>
+        <h4>Tell us where you are.</h4>
+        <p>Brokerage name and MLS. One form.</p>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <h4>Authorize MLS access.</h4>
+        <p>Read-only. Two clicks. No IT ticket.</p>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <h4>Receive your first reports.</h4>
+        <p>Next Monday at 7am. Every Monday after that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider"/>
+
+<section id="signup" class="pricing-section">
+  <div class="container">
+    <div class="pricing-tile">
+      <span class="label">Pricing</span>
+      <div class="price">$500<span>/month</span></div>
+      <p class="sub">Brokerage flat. No setup fee. No annual contract. Cancel anytime.</p>
+      <p class="terms">A single line item on your corporate card. Set up in ten minutes. First reports go out the following Monday at 7am.</p>
+      <a href="https://getbrokeros.ai/signup" class="btn-pricing">Sign up <span>→</span></a>
+      <p class="founding">Locked-in pricing for the first 30 days of customers. Even if the price moves later.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider"/>
+
+<section id="objections">
+  <div class="container">
+    <span class="section-kicker">Likely questions</span>
+    <h2>The short answers.</h2>
+
+    <div class="objections">
+      <div class="obj">
+        <h4>Is this another dashboard?</h4>
+        <p>No. Two emails. Nothing to log into.</p>
+      </div>
+      <div class="obj">
+        <h4>What about my LoneWolf data?</h4>
+        <p>The wedge is MLS only. The rest is roadmap.</p>
+      </div>
+      <div class="obj">
+        <h4>What if it is not useful?</h4>
+        <p>Cancel from the same page you signed up on.</p>
+      </div>
+    </div>
+
+    <p class="faq-link"><a href="/faq">Read the full FAQ →</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>BrokerOS · The intelligence layer for modern brokerages</span>
+    <span class="domain">getbrokeros.ai</span>
+  </div>
+</footer>
+
+</body>
+</html>
