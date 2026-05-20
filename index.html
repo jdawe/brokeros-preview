@@ -3,164 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BrokerOS · The Monday Brief for Brokerages</title>
-<meta name="description" content="Two reports, every Monday at 7am, built from MLS data. $500 a month, brokerage flat. Set up in ten minutes.">
-<meta property="og:title" content="BrokerOS · The Monday Brief for Brokerages">
-<meta property="og:description" content="Two reports, every Monday at 7am, built from MLS data. $500 a month, brokerage flat. Set up in ten minutes.">
+<title>BrokerOS · The intelligence layer for modern brokerages.</title>
+<meta name="description" content="BrokerOS reads your LoneWolf and MLS data every night and hands you the one briefing that matters every morning. Milestones, risks, recruits, market movement. Composed from the systems you already pay for.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --cream:        #F4ECD8;
-  --cream-light:  #FAF4E4;
-  --cream-soft:   #EDE2C7;
-  --cream-deep:   #E3D5B2;
-  --paper:        #FBF7EB;
-  --green-ink:    #1B2E24;
-  --green-dark:   #24402F;
+  /* Cream + forest green, one warm accent */
+  --cream:        #F4ECD8;   /* page */
+  --cream-light:  #FAF4E4;   /* cards on dark */
+  --cream-soft:   #EDE2C7;   /* panels */
+  --cream-deep:   #E3D5B2;   /* borders / dividers */
+  --paper:        #FBF7EB;   /* brightest mock surface */
+
+  --green-ink:    #1B2E24;   /* deepest forest */
+  --green-dark:   #24402F;   /* primary brand */
   --green-mid:    #3A5F48;
   --green-soft:   #7A9A85;
   --green-line:   rgba(27, 46, 36, 0.12);
-  --ochre:        #B07A3A;
+
+  --ochre:        #B07A3A;   /* single warm accent, restrained */
   --ochre-soft:   #C89A5E;
+
   --ink:          #1A1D1B;
   --ink-soft:     #4A4F4A;
   --ink-mute:     #7A7B74;
+
+  --alarm:        #9B3A2E;   /* reserved for alerts inside mocks only */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-html, body {
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--cream);
   color: var(--ink);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "ss01", "cv11";
   overflow-x: hidden;
+  font-feature-settings: "ss01", "cv11";
+}
+::selection { background: var(--green-dark); color: var(--cream-light); }
+
+h1, h2, h3, h4, .serif {
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-variation-settings: "opsz" 72, "SOFT" 40;
+}
+em, .italic {
+  font-style: italic;
+  font-variation-settings: "opsz" 72, "SOFT" 80;
 }
 
 .container {
-  max-width: 1080px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 40px;
+}
+.container-narrow {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
-/* ---------- Nav ---------- */
+/* ───────── NAV ───────── */
 nav {
-  position: sticky;
-  top: 0;
-  background: rgba(244, 236, 216, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 22px 40px;
+  background: rgba(244, 236, 216, 0.82);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  z-index: 100;
   border-bottom: 1px solid var(--green-line);
-  z-index: 50;
 }
 .nav-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 32px;
-  max-width: 1080px;
+  max-width: 1240px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.brand {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 400;
+.logo {
+  font-family: 'Fraunces', serif;
   font-size: 22px;
+  font-weight: 500;
   color: var(--green-ink);
-  letter-spacing: -0.01em;
-  text-decoration: none;
+  letter-spacing: -0.03em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
 }
-.brand em { color: var(--ochre); font-style: italic; }
-.nav-cta {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--green-ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--green-line);
-  padding-bottom: 2px;
+.logo .logo-mark-word {
+  font-style: italic;
+  color: var(--ochre);
+  font-weight: 400;
 }
-.nav-cta:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
+.nav-links {
+  display: flex;
+  gap: 40px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.nav-links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green-ink); }
 
-/* ---------- Hero ---------- */
-.hero { padding: 120px 0 80px; }
-.eyebrow {
+/* ───────── BUTTONS ───────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  letter-spacing: 0.005em;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--green-ink);
+  color: var(--cream-light);
+}
+.btn-primary:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(27, 46, 36, 0.22);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--green-ink);
+  border: 1px solid var(--green-ink);
+}
+.btn-ghost:hover {
+  background: var(--green-ink);
+  color: var(--cream-light);
+}
+.btn-ghost.on-dark {
+  color: var(--cream-light);
+  border-color: rgba(250, 244, 228, 0.6);
+}
+.btn-ghost.on-dark:hover {
+  background: var(--cream-light);
+  color: var(--green-ink);
+}
+.btn .arrow {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ───────── HERO ───────── */
+.hero {
+  padding: 180px 0 140px;
+  position: relative;
+  overflow: hidden;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+}
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.23 0 0 0 0 0.18 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-orb.a { width: 640px; height: 640px; background: #A9C1AC; top: -220px; right: -140px; opacity: 0.42; }
+.hero-orb.b { width: 380px; height: 380px; background: var(--ochre); bottom: 40px; left: -100px; opacity: 0.12; }
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+.hero-eyebrow {
+  display: block;
+  color: var(--green-ink);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11.5px;
   font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--green-ink);
-  opacity: 0.78;
-  margin-bottom: 32px;
-}
-h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(48px, 7.2vw, 104px);
-  font-weight: 300;
-  color: var(--green-ink);
-  line-height: 0.96;
-  letter-spacing: -0.03em;
-  max-width: 15ch;
   margin-bottom: 36px;
+  opacity: 0.78;
 }
-h1 em {
-  color: var(--ochre);
-  font-style: italic;
+.hero h1 {
+  font-size: clamp(56px, 8.6vw, 132px);
   font-weight: 300;
-  display: block;
+  color: var(--green-ink);
+  margin-bottom: 40px;
+  line-height: 0.92;
+  max-width: 15ch;
+  letter-spacing: -0.038em;
 }
+.hero h1 .accent-word { color: var(--ochre); font-style: italic; font-weight: 300; }
+.hero h1 .line-break { display: block; }
 .hero-sub {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(18px, 1.8vw, 22px);
+  font-size: clamp(19px, 1.65vw, 22px);
   color: var(--ink-soft);
-  line-height: 1.45;
-  max-width: 34em;
+  max-width: 640px;
   margin-bottom: 44px;
+  line-height: 1.55;
+  font-weight: 400;
 }
-.cta-row {
+.hero-sub .highlight {
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.hero-cta {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  gap: 16px;
   flex-wrap: wrap;
+  align-items: center;
 }
-.btn-primary {
+
+/* ───────── MARQUEE (integration ribbon) ───────── */
+.ribbon {
+  padding: 56px 0 60px;
+  background: var(--cream-soft);
+  border-top: 1px solid var(--green-line);
+  border-bottom: 1px solid var(--green-line);
+  overflow: hidden;
+  position: relative;
+}
+.ribbon-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-mute);
+  text-align: center;
+  margin-bottom: 28px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ribbon-track {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: 'Fraunces', serif;
+  color: var(--green-ink);
+  letter-spacing: -0.015em;
+}
+.ribbon-track span {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 28px;
-  background: var(--green-ink);
-  color: var(--cream);
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  letter-spacing: 0.01em;
-  border-radius: 2px;
-  transition: background 0.2s ease;
-}
-.btn-primary:hover { background: var(--green-mid); }
-.btn-primary .arrow { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
-.btn-secondary {
-  color: var(--green-ink);
-  text-decoration: none;
+  font-size: 26px;
+  font-weight: 400;
+  padding: 0 32px;
+  position: relative;
   font-style: italic;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 16px;
-  border-bottom: 1px solid var(--green-line);
-  padding-bottom: 2px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
 }
-.btn-secondary:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
+.ribbon-track span:hover { opacity: 1; color: var(--ochre); }
+.ribbon-track span::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ochre);
+  transform: translate(50%, -50%);
+  opacity: 0.5;
+}
+.ribbon-track span:last-child::after { display: none; }
 
-/* ---------- Section base ---------- */
-section { padding: 100px 0; }
+/* ───────── SECTION: IMAGINE ───────── */
+.imagine {
+  padding: 160px 0 180px;
+  background: var(--green-ink);
+  color: var(--cream-light);
+  position: relative;
+  overflow: hidden;
+}
+.imagine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.6;
+  pointer-events: none;
+}
+.imagine > .container { position: relative; z-index: 2; }
+
 .section-kicker {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11.5px;
@@ -168,204 +316,1414 @@ section { padding: 100px 0; }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ochre);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   display: inline-block;
 }
-h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(38px, 5vw, 64px);
+.imagine h2 {
+  font-size: clamp(44px, 5.6vw, 84px);
   font-weight: 300;
-  color: var(--green-ink);
+  margin-bottom: 24px;
+  max-width: 18ch;
   line-height: 1.0;
-  letter-spacing: -0.025em;
-  max-width: 22ch;
-  margin-bottom: 40px;
+  letter-spacing: -0.03em;
 }
-h2 em { color: var(--ochre); font-style: italic; font-weight: 300; }
-.section-divider { border: none; border-top: 1px solid var(--green-line); }
+.imagine h2 em { color: var(--ochre); }
+.imagine-lede {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 300;
+  color: rgba(250, 244, 228, 0.75);
+  max-width: 640px;
+  margin-bottom: 100px;
+  line-height: 1.4;
+}
 
-/* ---------- Two reports ---------- */
-.reports-grid {
+.scenes { display: grid; gap: 140px; }
+.scene {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-top: 24px;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 90px;
+  align-items: center;
 }
-.report-card {
-  background: var(--paper);
-  border: 1px solid var(--green-line);
-  padding: 40px;
-  border-radius: 4px;
+.scene:nth-child(even) {
+  direction: rtl;
 }
-.report-card .label {
+.scene:nth-child(even) > * { direction: ltr; }
+
+.scene-copy .scene-index {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 11.5px;
+  color: var(--green-soft);
+  margin-bottom: 20px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--ochre);
-  margin-bottom: 18px;
-  display: block;
 }
-.report-card h3 {
-  font-family: 'Fraunces', Georgia, serif;
+.scene-copy h3 {
+  font-size: clamp(30px, 3.6vw, 46px);
+  color: var(--cream-light);
+  margin-bottom: 26px;
+  font-weight: 300;
+  line-height: 1.1;
+}
+.scene-copy h3 em { color: var(--ochre-soft); }
+.scene-copy p {
+  font-size: 17.5px;
+  color: rgba(250, 244, 228, 0.72);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  max-width: 46ch;
+}
+.scene-copy .scene-pull {
+  margin-top: 28px;
+  padding: 18px 24px;
+  border-left: 2px solid var(--ochre);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--cream-light);
+  line-height: 1.4;
+  max-width: 46ch;
+}
+
+/* ───── Email / Report mock ───── */
+.mock {
+  background: var(--paper);
+  border-radius: 20px;
+  box-shadow:
+    0 48px 80px -20px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(250, 244, 228, 0.04);
+  overflow: hidden;
+  color: var(--ink);
+  transform: perspective(1400px) rotateY(-7deg) rotateX(2deg);
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+}
+.scene:nth-child(even) .mock {
+  transform: perspective(1400px) rotateY(7deg) rotateX(2deg);
+}
+.mock:hover { transform: perspective(1400px) rotateY(0) rotateX(0) translateY(-4px); }
+
+.mock-chrome {
+  padding: 16px 24px;
+  background: var(--cream-soft);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--green-line);
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+}
+.mock-dots { display: flex; gap: 6px; }
+.mock-dots span {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(27, 46, 36, 0.18);
+}
+.mock-dots span:first-child { background: #C86C5A; }
+.mock-dots span:nth-child(2) { background: #D4A84B; }
+.mock-dots span:nth-child(3) { background: #7A9A85; }
+.mock-chrome-meta { flex: 1; text-align: center; opacity: 0.7; }
+
+.mock-body {
+  padding: 32px 34px 36px;
+}
+.mock-subject {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--green-ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.mock-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--cream-deep);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+}
+.mock-hello {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+/* Report cards inside mocks */
+.card {
+  padding: 18px 20px;
+  background: var(--cream);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border-left: 2px solid var(--green-mid);
+  position: relative;
+}
+.card.accent { border-left-color: var(--ochre); }
+.card.alert { border-left-color: var(--alarm); }
+.card.soft { background: var(--cream-soft); }
+
+.card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--green-mid);
+  margin-bottom: 8px;
+}
+.card.accent .card-label { color: var(--ochre); }
+.card.alert .card-label { color: var(--alarm); }
+
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--green-ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.card-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.card-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--cream-deep);
+}
+.card-stat-big {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--ochre);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.card-stat-label {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.card-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.chip {
+  font-size: 11.5px;
+  padding: 5px 11px;
+  background: var(--paper);
+  border: 1px solid var(--cream-deep);
+  border-radius: 999px;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.chip.primary {
+  background: var(--green-ink);
+  color: var(--cream-light);
+  border-color: var(--green-ink);
+}
+
+.mock-footer {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--cream-deep);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-mute);
+  text-align: center;
+}
+
+/* Ledger-style row table (inside one mock) */
+.ledger { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ledger th, .ledger td {
+  text-align: left;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cream-deep);
+}
+.ledger th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+}
+.ledger td.name {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.ledger td.meta { color: var(--ink-mute); font-size: 12px; }
+.ledger td.num {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--green-mid);
+  font-size: 13px;
+}
+.ledger td.num.hot {
+  color: var(--ochre);
+  font-weight: 600;
+}
+.ledger td.num.cool { color: var(--ink-mute); }
+.ledger tr:last-child td { border-bottom: none; }
+
+/* Trajectory spark bars inside ledger */
+.spark {
+  display: inline-flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 18px;
+  vertical-align: middle;
+}
+.spark i {
+  width: 4px;
+  background: var(--green-soft);
+  border-radius: 1px;
+  display: inline-block;
+}
+.spark.hot i { background: var(--ochre); }
+.spark.cool i { background: var(--cream-deep); }
+
+/* Market delta badges */
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+.delta.up { color: var(--green-mid); background: rgba(58, 95, 72, 0.08); }
+.delta.down { color: var(--alarm); background: rgba(155, 58, 46, 0.08); }
+.delta.flat { color: var(--ink-mute); background: rgba(122, 123, 116, 0.08); }
+
+/* Event timeline inside milestone mock */
+.timeline { margin-top: 14px; position: relative; }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--cream-deep);
+}
+.timeline-item {
+  position: relative;
+  padding: 6px 0 10px 28px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  box-shadow: 0 0 0 3px var(--paper);
+}
+.timeline-item.hot::before { background: var(--ochre); }
+.timeline-item .t {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  letter-spacing: 0.1em;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.timeline-item strong {
+  color: var(--green-ink);
+  font-weight: 500;
+}
+
+/* Mini KPI row for executive mock */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.kpi {
+  padding: 12px 10px;
+  background: var(--cream);
+  border-radius: 10px;
+  border: 1px solid var(--cream-deep);
+  text-align: left;
+}
+.kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.kpi-val {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--green-ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.kpi-val.accent { color: var(--ochre); }
+.kpi-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+}
+.kpi-delta.up { color: var(--green-mid); }
+.kpi-delta.down { color: var(--alarm); }
+
+/* Market heat grid */
+.heat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  margin-top: 10px;
+}
+.heat-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: rgba(58, 95, 72, 0.15);
+  position: relative;
+}
+.heat-cell.h1 { background: rgba(176, 122, 58, 0.15); }
+.heat-cell.h2 { background: rgba(176, 122, 58, 0.35); }
+.heat-cell.h3 { background: rgba(176, 122, 58, 0.6); }
+.heat-cell.h4 { background: rgba(176, 122, 58, 0.85); }
+.heat-cell.c1 { background: rgba(58, 95, 72, 0.25); }
+.heat-cell.c2 { background: rgba(58, 95, 72, 0.45); }
+
+/* ───────── SECTION: SEVEN BRIEFINGS ───────── */
+.briefings {
+  padding: 160px 0 140px;
+  background: var(--cream);
+}
+.section-head {
+  max-width: 960px;
+  margin: 0 auto 90px;
+  text-align: center;
+}
+.section-head h2 {
+  font-size: clamp(44px, 5.6vw, 78px);
+  font-weight: 300;
+  color: var(--green-ink);
+  margin-bottom: 28px;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.section-head h2 em { color: var(--ochre); }
+.section-head p {
+  font-size: 19px;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.section-head .section-kicker {
+  color: var(--ochre);
+  margin-bottom: 24px;
+}
+
+.briefings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--green-line);
+  border-left: 1px solid var(--green-line);
+}
+.brief {
+  padding: 44px 36px;
+  border-right: 1px solid var(--green-line);
+  border-bottom: 1px solid var(--green-line);
+  background: var(--cream);
+  transition: background 0.3s;
+  position: relative;
+}
+.brief:hover {
+  background: var(--cream-soft);
+}
+.brief-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--ochre);
+  letter-spacing: 0.14em;
+  margin-bottom: 20px;
+}
+.brief h4 {
   font-size: 28px;
   font-weight: 400;
   color: var(--green-ink);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
   line-height: 1.1;
-  letter-spacing: -0.015em;
-  margin-bottom: 6px;
+  font-family: 'Fraunces', serif;
 }
-.report-card .audience {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  color: var(--ink-soft);
+.brief p {
   font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.62;
   margin-bottom: 22px;
 }
-.report-card p { font-size: 15.5px; color: var(--ink); margin-bottom: 14px; max-width: none; }
-.report-card .punch {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-size: 16px;
-  color: var(--green-ink);
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid var(--green-line);
-}
-
-/* ---------- How it works ---------- */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-.step .num {
+.brief-meta {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--ochre);
-  letter-spacing: 0.1em;
-  margin-bottom: 16px;
-  display: block;
-}
-.step h4 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 400;
-  font-size: 22px;
-  color: var(--green-ink);
-  letter-spacing: -0.01em;
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-.step p { color: var(--ink-soft); font-size: 15px; max-width: none; }
-
-/* ---------- Pricing tile ---------- */
-.pricing-section { padding: 80px 0; }
-.pricing-tile {
-  background: var(--green-ink);
-  color: var(--cream);
-  padding: 64px 56px;
-  border-radius: 4px;
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto;
-}
-.pricing-tile .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.22em;
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ochre-soft);
-  margin-bottom: 28px;
-  display: block;
 }
-.pricing-tile .price {
-  font-family: 'Fraunces', Georgia, serif;
+.brief-meta span {
+  color: var(--green-mid);
+}
+
+/* ───────── SECTION: ASK ANYTHING (scroll-driven chat story) ───────── */
+.ask {
+  background: var(--cream);
+  position: relative;
+}
+.ask-sticky-track {
+  /* Tall scroll track that drives the sticky chat on desktop.
+     Taller = slower/calmer reveal. */
+  position: relative;
+  height: 500vh;
+}
+.ask-sticky-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 100px 0 60px;
+}
+.ask-sticky-stage::before {
+  content: "";
+  position: absolute;
+  top: 8%; left: -180px;
+  width: 460px; height: 460px;
+  background: var(--green-soft);
+  opacity: 0.22;
+  filter: blur(120px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ask-sticky-stage::after {
+  content: "";
+  position: absolute;
+  bottom: 6%; right: -160px;
+  width: 420px; height: 420px;
+  background: var(--ochre);
+  opacity: 0.1;
+  filter: blur(110px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ask-sticky-stage > .container { position: relative; z-index: 2; width: 100%; }
+.ask-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 100px;
+  align-items: center;
+}
+.ask-copy h2 {
+  font-size: clamp(40px, 4.6vw, 68px);
   font-weight: 300;
-  font-size: 72px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  color: var(--cream);
+  color: var(--green-ink);
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
 }
-.pricing-tile .price span {
-  font-size: 22px;
-  color: var(--cream-soft);
-  opacity: 0.7;
+.ask-copy h2 em { color: var(--ochre); }
+.ask-copy p {
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 16px;
+  max-width: 44ch;
 }
-.pricing-tile .sub {
-  font-family: 'Fraunces', Georgia, serif;
+.ask-copy .ask-pull {
+  margin-top: 28px;
+  padding: 18px 24px;
+  background: var(--cream-soft);
+  border-radius: 14px;
+  border-left: 3px solid var(--ochre);
+  font-family: 'Fraunces', serif;
   font-style: italic;
   font-size: 17px;
-  color: var(--cream-soft);
-  opacity: 0.85;
-  margin-bottom: 32px;
+  color: var(--green-ink);
+  line-height: 1.45;
+  max-width: 44ch;
 }
-.pricing-tile .terms {
-  font-size: 13.5px;
-  color: var(--cream-soft);
-  opacity: 0.7;
-  margin-bottom: 32px;
-  line-height: 1.7;
+.ask-copy .ask-ex {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 44ch;
 }
-.pricing-tile .btn-pricing {
-  display: inline-flex;
+.ask-copy .ask-ex span {
+  font-size: 12.5px;
+  padding: 7px 14px;
+  background: var(--cream);
+  border: 1px solid var(--green-line);
+  border-radius: 999px;
+  color: var(--green-ink);
+  font-weight: 500;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+}
+.ask-scene-dots {
+  margin-top: 28px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ask-scene-dots span {
+  width: 28px; height: 4px;
+  border-radius: 2px;
+  background: var(--green-line);
+  transition: background 0.4s ease, width 0.4s ease;
+}
+.ask-scene-dots span.active {
+  background: var(--ochre);
+  width: 44px;
+}
+.ask-scroll-hint {
+  margin-top: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  opacity: 0.8;
+}
+
+/* Chat window mock */
+.chat {
+  background: var(--paper);
+  border-radius: 22px;
+  box-shadow:
+    0 40px 80px -24px rgba(27, 46, 36, 0.32),
+    0 0 0 1px var(--green-line);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: min(78vh, 720px);
+  max-height: 720px;
+}
+.chat-chrome {
+  padding: 14px 22px;
+  background: var(--green-ink);
+  color: var(--cream-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.chat-chrome-title {
+  display: flex;
   align-items: center;
   gap: 10px;
-  padding: 16px 32px;
-  background: var(--ochre);
+  font-weight: 500;
+}
+.chat-chrome-title .pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ochre-soft);
+  box-shadow: 0 0 0 3px rgba(200, 154, 94, 0.25);
+  animation: pulse 2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+/* Scrollable viewport with fade masks */
+.chat-viewport {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+.chat-viewport.is-scrollable {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.chat-viewport::-webkit-scrollbar { width: 8px; }
+.chat-viewport::-webkit-scrollbar-track { background: transparent; }
+.chat-viewport::-webkit-scrollbar-thumb {
+  background: var(--cream-deep);
+  border-radius: 999px;
+  border: 2px solid var(--paper);
+}
+.chat-viewport::-webkit-scrollbar-thumb:hover { background: var(--ochre-soft); }
+.chat-viewport { scrollbar-color: var(--cream-deep) transparent; scrollbar-width: thin; }
+.chat-fade {
+  position: absolute;
+  left: 0; right: 0;
+  height: 36px;
+  pointer-events: none;
+  z-index: 3;
+}
+.chat-fade-top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--paper) 0%, rgba(251, 247, 235, 0) 100%);
+}
+.chat-fade-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--paper) 0%, rgba(251, 247, 235, 0) 100%);
+}
+.chat-body {
+  padding: 28px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  will-change: transform;
+}
+/* Scenes: stacked vertically; scroll-driven controller translates the chat-body */
+.chat-scene {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: opacity 0.5s ease;
+}
+.ask-driven .chat-scene { opacity: 0.25; }
+.ask-driven .chat-scene.is-active { opacity: 1; }
+/* When JS falls back (no driver), show everything at full opacity */
+.chat-viewport.is-scrollable .chat-scene { opacity: 1; }
+.bubble {
+  max-width: 85%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  position: relative;
+}
+.bubble.user {
+  align-self: flex-end;
+  background: var(--green-ink);
+  color: var(--cream-light);
+  border-bottom-right-radius: 6px;
+  font-weight: 500;
+}
+.bubble.ai {
+  align-self: flex-start;
+  background: var(--cream-soft);
+  color: var(--ink);
+  border-bottom-left-radius: 6px;
+  border: 1px solid var(--cream-deep);
+  max-width: 94%;
+}
+.bubble.ai strong { color: var(--green-ink); font-weight: 600; }
+.bubble.ai .ai-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ochre);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.bubble.ai .inline-stat {
+  display: inline-block;
+  padding: 1px 6px;
+  background: var(--paper);
+  border: 1px solid var(--cream-deep);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
   color: var(--green-ink);
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+.bubble.ai .mini-list {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--cream-deep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.bubble.ai .mini-list .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--cream-deep);
+}
+.bubble.ai .mini-list .row:last-child { border-bottom: none; }
+.bubble.ai .mini-list .row b {
+  font-family: 'Fraunces', serif;
+  color: var(--green-ink);
+  font-weight: 500;
+  font-size: 13px;
+}
+.bubble.ai .mini-list .row .n {
+  color: var(--ochre);
   font-weight: 600;
+}
+.bubble.ai .mini-list .row .n.up { color: #2F6B45; }
+.bubble.ai .mini-list .row .n.down { color: var(--alarm); }
+
+/* Mini horizontal bar chart */
+.bubble.ai .mini-bars {
+  margin-top: 12px;
+  padding: 12px 14px 10px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--cream-deep);
+}
+.bubble.ai .mini-bars-label,
+.bubble.ai .mini-top-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 8px;
+}
+.bubble.ai .bar-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 0;
+}
+.bubble.ai .bar-row .bar-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.bubble.ai .bar-row .bar {
+  position: relative;
+  height: 7px;
+  background: var(--cream-soft);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bubble.ai .bar-row .bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: var(--w, 50%);
+  background: linear-gradient(90deg, var(--green-soft), var(--green-mid));
+  border-radius: 4px;
+}
+.bubble.ai .bar-row.is-now .bar::after {
+  background: linear-gradient(90deg, var(--ochre-soft), var(--ochre));
+}
+.bubble.ai .bar-row .bar-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.bubble.ai .bar-row.is-now .bar-val { color: var(--ochre); font-weight: 600; }
+
+/* Top producers mini block */
+.bubble.ai .mini-top {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--cream-deep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.bubble.ai .mini-top .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--cream-deep);
+}
+.bubble.ai .mini-top .row:last-child { border-bottom: none; }
+.bubble.ai .mini-top .row b {
+  font-family: 'Fraunces', serif;
+  color: var(--green-ink);
+  font-weight: 500;
+  font-size: 13px;
+}
+.bubble.ai .mini-top .row .n { color: var(--ochre); font-weight: 600; }
+
+/* Side-by-side market compare */
+.bubble.ai .compare {
+  margin: 12px 0;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 14px;
+  padding: 14px 14px 10px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--cream-deep);
+}
+.bubble.ai .compare-divider {
+  background: var(--cream-deep);
+  align-self: stretch;
+}
+.bubble.ai .compare-col { min-width: 0; }
+.bubble.ai .compare-name {
+  font-family: 'Fraunces', serif;
   font-size: 15px;
-  border-radius: 2px;
+  font-weight: 500;
+  color: var(--green-ink);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--cream-deep);
+}
+.bubble.ai .compare-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.bubble.ai .compare-row > span:first-child { color: var(--ink-mute); }
+.bubble.ai .compare-row b {
+  font-family: 'Fraunces', serif;
+  font-size: 13px;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.bubble.ai .delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.bubble.ai .delta.up { background: rgba(47, 107, 69, 0.12); color: #2F6B45; }
+.bubble.ai .delta.down { background: rgba(176, 122, 58, 0.14); color: var(--ochre); }
+.bubble.ai .delta.flat { background: var(--cream-soft); color: var(--ink-mute); }
+
+/* Recruit list */
+.bubble.ai .recruit-list {
+  margin: 12px 0;
+  padding: 10px 12px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--cream-deep);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bubble.ai .recruit-row {
+  border-radius: 8px;
+  padding: 8px 10px;
   transition: background 0.2s ease;
 }
-.pricing-tile .btn-pricing:hover { background: var(--ochre-soft); }
-.founding {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  color: var(--cream-soft);
+.bubble.ai .recruit-row:hover { background: var(--cream-soft); }
+.bubble.ai .recruit-row.open { background: var(--cream-soft); }
+.bubble.ai .recruit-head {
+  display: grid;
+  grid-template-columns: 28px 1fr auto 14px;
+  align-items: center;
+  gap: 10px;
+}
+.bubble.ai .recruit-rank {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.08em;
+}
+.bubble.ai .recruit-id b {
+  display: block;
+  font-family: 'Fraunces', serif;
   font-size: 14px;
-  margin-top: 24px;
-  opacity: 0.7;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.bubble.ai .recruit-meta {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+}
+.bubble.ai .recruit-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+.bubble.ai .recruit-score.a-plus { background: var(--ochre); color: var(--cream-light); }
+.bubble.ai .recruit-score.a { background: rgba(176, 122, 58, 0.2); color: var(--ochre); }
+.bubble.ai .recruit-score.b { background: var(--cream); color: var(--ink-soft); border: 1px solid var(--cream-deep); }
+.bubble.ai .recruit-caret { color: var(--ink-mute); font-size: 12px; }
+.bubble.ai .recruit-detail {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--cream-deep);
+}
+.bubble.ai .recruit-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.bubble.ai .recruit-stats > div {
+  padding: 6px 8px;
+  background: var(--paper);
+  border: 1px solid var(--cream-deep);
+  border-radius: 8px;
+}
+.bubble.ai .recruit-stats span {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 2px;
+}
+.bubble.ai .recruit-stats b {
+  font-family: 'Fraunces', serif;
+  font-size: 13px;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.bubble.ai .recruit-stats b.up { color: #2F6B45; }
+.bubble.ai .recruit-note {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  padding: 8px 10px;
+  background: var(--paper);
+  border-left: 2px solid var(--ochre);
+  border-radius: 4px;
 }
 
-/* ---------- Objections ---------- */
-.objections {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 36px;
+/* Agent profile card */
+.bubble.ai .agent-card {
+  margin-top: 8px;
+  padding: 18px;
+  background: var(--paper);
+  border-radius: 14px;
+  border: 1px solid var(--cream-deep);
+  box-shadow: 0 10px 28px -18px rgba(27, 46, 36, 0.4);
 }
-.obj h4 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 400;
-  font-size: 19px;
+.bubble.ai .agent-card-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--cream-deep);
+}
+.bubble.ai .agent-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--cream-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bubble.ai .agent-name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 500;
   color: var(--green-ink);
   letter-spacing: -0.01em;
-  margin-bottom: 8px;
-  line-height: 1.25;
 }
-.obj p { font-size: 15px; color: var(--ink-soft); max-width: none; }
-.faq-link {
-  margin-top: 40px;
+.bubble.ai .agent-sub {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin: 2px 0 8px;
+}
+.bubble.ai .agent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bubble.ai .agent-chips .chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  background: var(--cream);
+  border: 1px solid var(--cream-deep);
+  border-radius: 999px;
+  color: var(--ink-soft);
+}
+.bubble.ai .agent-score {
+  text-align: center;
+  padding: 8px 14px;
+  background: var(--ochre);
+  color: var(--cream-light);
+  border-radius: 12px;
+  min-width: 64px;
+}
+.bubble.ai .agent-score-val {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+}
+.bubble.ai .agent-score-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+.bubble.ai .agent-boards {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cream-deep);
+}
+.bubble.ai .agent-boards-label,
+.bubble.ai .agent-prod-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+}
+.bubble.ai .agent-boards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bubble.ai .agent-boards-list span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 9px;
+  background: var(--cream);
+  border: 1px solid var(--cream-deep);
+  border-radius: 6px;
+  color: var(--green-ink);
+}
+.bubble.ai .agent-prod {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cream-deep);
+}
+.bubble.ai .spark {
+  display: block;
+  width: 100%;
+  height: 56px;
+  margin-bottom: 8px;
+}
+.bubble.ai .agent-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+.bubble.ai .agent-prod-grid > div {
+  padding: 6px 4px;
+  text-align: center;
+  background: var(--cream);
+  border: 1px solid var(--cream-deep);
+  border-radius: 6px;
+}
+.bubble.ai .agent-prod-grid > div.is-now {
+  background: var(--ochre);
+  border-color: var(--ochre);
+}
+.bubble.ai .agent-prod-grid span {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.bubble.ai .agent-prod-grid b {
+  font-family: 'Fraunces', serif;
+  font-size: 12.5px;
+  color: var(--green-ink);
+  font-weight: 500;
+}
+.bubble.ai .agent-prod-grid > div.is-now span,
+.bubble.ai .agent-prod-grid > div.is-now b { color: var(--cream-light); opacity: 0.95; }
+.bubble.ai .agent-trend {
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bubble.ai .agent-trend-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  font-size: 12px;
+}
+.bubble.ai .agent-trend-row > span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding-top: 2px;
+}
+.bubble.ai .agent-trend-row b {
+  font-family: 'Fraunces', serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green-ink);
+}
+.bubble.ai .agent-trend-row b.up { color: #2F6B45; }
+.bubble.ai .agent-note {
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: var(--cream-soft);
+  border-left: 3px solid var(--ochre);
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--cream-soft);
+  border: 1px solid var(--cream-deep);
+  border-radius: 18px;
+  align-self: flex-start;
+}
+.typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  opacity: 0.7;
+  animation: typing 1.4s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+.chat-input {
+  flex-shrink: 0;
+  padding: 14px 20px;
+  border-top: 1px solid var(--cream-deep);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--cream);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--ink-mute);
+  font-size: 14.5px;
+}
+.chat-input .caret {
+  width: 2px;
+  height: 16px;
+  background: var(--ochre);
+  animation: blink 1s infinite steps(2);
+}
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+.chat-input .send {
+  margin-left: auto;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--green-ink);
+  color: var(--cream-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-size: 14px;
+}
+
+/* ───────── SECTION: SIGNAL UNIVERSE (editorial table) ───────── */
+.universe {
+  padding: 140px 0 160px;
+  background: var(--cream-soft);
+  position: relative;
+}
+.universe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  margin-top: 90px;
+  border-top: 1px solid var(--green-line);
+}
+.signal-col { padding: 0 32px; border-right: 1px solid var(--green-line); }
+.signal-col:last-child { border-right: none; padding-right: 0; }
+.signal-col:first-child { padding-left: 0; }
+.signal-group { padding: 32px 0; border-bottom: 1px solid var(--green-line); }
+.signal-group:last-child { border-bottom: none; }
+.signal-group h5 {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--green-ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.signal-group .count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--ochre);
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+  display: block;
+  text-transform: uppercase;
+}
+.signal-group p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* ───────── SECTION: MANIFESTO ───────── */
+.manifesto {
+  padding: 180px 0;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.manifesto::before {
+  content: "";
+  position: absolute;
+  top: 120px;
+  right: -180px;
+  width: 420px;
+  height: 420px;
+  background: var(--ochre);
+  opacity: 0.07;
+  filter: blur(100px);
+  border-radius: 50%;
+}
+.manifesto-content {
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  padding: 0 40px;
+}
+.manifesto .section-kicker { margin-bottom: 30px; }
+.manifesto h2 {
+  font-size: clamp(38px, 4.8vw, 62px);
+  font-weight: 300;
+  color: var(--green-ink);
+  line-height: 1.15;
+  margin-bottom: 48px;
+  letter-spacing: -0.025em;
   text-align: center;
 }
-.faq-link a {
-  color: var(--green-ink);
-  font-style: italic;
-  font-family: 'Fraunces', Georgia, serif;
-  text-decoration: none;
-  border-bottom: 1px solid var(--green-line);
-  padding-bottom: 2px;
+.manifesto h2 em { color: var(--ochre); }
+.manifesto-body p {
+  font-size: 19px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 22px;
 }
-.faq-link a:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
-
-/* ---------- Footer ---------- */
-footer {
-  border-top: 1px solid var(--green-line);
-  padding: 40px 0 60px;
+.manifesto-body p.drop::first-letter {
+  font-family: 'Fraunces', serif;
+  font-size: 68px;
+  font-weight: 400;
+  float: left;
+  line-height: 0.88;
+  margin: 6px 12px -4px 0;
+  color: var(--ochre);
+}
+.manifesto-body .stress {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 24px;
+  color: var(--green-ink);
+  line-height: 1.4;
+  margin: 40px auto;
+  text-align: center;
+  max-width: 32ch;
+}
+.manifesto-sign {
   margin-top: 60px;
+  text-align: center;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+}
+
+/* ───────── SECTION: CTA ───────── */
+.cta {
+  padding: 150px 0;
+  background: var(--green-ink);
+  color: var(--cream-light);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+}
+.cta > .container { position: relative; z-index: 2; }
+.cta .section-kicker { color: var(--ochre-soft); }
+.cta h2 {
+  font-size: clamp(44px, 5.6vw, 76px);
+  font-weight: 300;
+  margin-bottom: 28px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  max-width: 18ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta h2 em { color: var(--ochre-soft); }
+.cta p {
+  font-size: 19px;
+  color: rgba(250, 244, 228, 0.78);
+  max-width: 560px;
+  margin: 0 auto 44px;
+  line-height: 1.6;
+}
+.cta .hero-cta { justify-content: center; }
+
+/* ───────── FOOTER ───────── */
+footer {
+  padding: 44px 0;
+  background: var(--green-ink);
+  color: rgba(250, 244, 228, 0.55);
+  border-top: 1px solid rgba(250, 244, 228, 0.1);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.03em;
 }
 .footer-inner {
   display: flex;
@@ -373,148 +1731,1438 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
-  color: var(--ink-mute);
 }
-.footer-inner .domain { color: var(--ochre); }
+.footer-inner a { color: inherit; text-decoration: none; }
+.footer-inner a:hover { color: var(--cream-light); }
 
-/* ---------- Mobile ---------- */
-@media (max-width: 760px) {
-  .reports-grid { grid-template-columns: 1fr; gap: 24px; }
-  .steps { grid-template-columns: 1fr; gap: 32px; }
-  .objections { grid-template-columns: 1fr; gap: 28px; }
-  section { padding: 70px 0; }
-  .hero { padding: 80px 0 50px; }
-  .pricing-tile { padding: 48px 28px; }
-  .pricing-tile .price { font-size: 56px; }
-  .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+/* ───────── RESPONSIVE ───────── */
+/* ≤ 1000px · tablet + phone */
+@media (max-width: 1000px) {
+  /* Imagine scenes collapse to single column, mock below copy, flat (no 3D tilt) */
+  .scene { grid-template-columns: 1fr; gap: 48px; }
+  .scene:nth-child(even) { direction: ltr; }
+  .scene .mock,
+  .scene:nth-child(even) .mock,
+  .scene .mock:hover,
+  .scene:nth-child(even) .mock:hover {
+    transform: none;
+  }
+  .imagine { padding: 110px 0 120px; }
+  .imagine-lede { margin-bottom: 60px; }
+  .scenes { gap: 90px; }
+
+  /* Section heads breathe less */
+  .section-head { margin-bottom: 60px; }
+
+  /* Briefings → 2 columns on tablet */
+  .briefings { padding: 110px 0 100px; }
+  .briefings-grid { grid-template-columns: 1fr 1fr; }
+  .brief { padding: 36px 28px; }
+
+  /* Signal universe → single column */
+  .universe { padding: 100px 0 110px; }
+  .universe-grid { grid-template-columns: 1fr; margin-top: 60px; }
+  .signal-col { border-right: none; padding: 0; border-bottom: 1px solid var(--green-line); }
+  .signal-col:last-child { border-bottom: none; }
+
+  /* Manifesto breathing room */
+  .manifesto { padding: 120px 0; }
+  .manifesto h2 { margin-bottom: 36px; }
+
+  /* CTA breathing */
+  .cta { padding: 110px 0; }
+
+  /* Ask: kill sticky track, use natively scrollable chat */
+  .ask-wrap { grid-template-columns: 1fr; gap: 48px; }
+  .ask-sticky-track { height: auto; padding: 90px 0 110px; }
+  .ask-sticky-stage { position: relative; top: auto; height: auto; padding: 0; overflow: visible; }
+  .ask-sticky-stage::before,
+  .ask-sticky-stage::after { opacity: 0.12; filter: blur(90px); }
+  .chat { height: 640px; max-height: none; }
+  .chat-viewport { overflow-y: auto; }
+  .ask-driven .chat-scene { opacity: 1 !important; }
+  .ask-scroll-hint { display: none; }
+  .ask-scene-dots { display: none; }
+  [data-ask-typing] { display: none !important; }
+
+  .bubble.ai .agent-prod-grid { grid-template-columns: repeat(3, 1fr); }
+  .bubble.ai .recruit-stats { grid-template-columns: repeat(2, 1fr); }
+  .bubble.ai .compare { grid-template-columns: 1fr; gap: 0; }
+  .bubble.ai .compare-divider { display: none; }
+  .bubble.ai .compare-col + .compare-col { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--cream-deep); }
+
+  /* Nav: hide links, keep logo + CTA */
+  .nav-links { display: none; }
+
+  /* Hero */
+  .hero { padding: 130px 0 70px; min-height: auto; }
+  .hero-orb.a { width: 420px; height: 420px; top: -140px; right: -120px; }
+  .hero-orb.b { width: 260px; height: 260px; }
+
+  /* Ribbon */
+  .ribbon { padding: 40px 0 44px; }
+  .ribbon-track { font-size: 18px; }
+  .ribbon-track span { font-size: 18px; padding: 0 20px; }
+
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .heat-grid { grid-template-columns: repeat(6, 1fr); }
 }
+
+/* ≤ 760px · phones · most aggressive restructuring */
+@media (max-width: 760px) {
+  .container, .container-narrow { padding: 0 22px; }
+  nav { padding: 16px 18px; }
+  .nav-inner { gap: 12px; }
+  .logo { font-size: 20px; }
+
+  /* Nav CTA button smaller on phone */
+  nav .btn-primary {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  nav .btn-primary .arrow { display: none; }
+
+  /* Hero: reduce the massive headline so it never overwhelms */
+  .hero { padding: 120px 0 64px; }
+  .hero-eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 10.5vw, 64px);
+    margin-bottom: 28px;
+    line-height: 0.96;
+    max-width: 100%;
+    letter-spacing: -0.03em;
+  }
+  .hero h1 .line-break { display: inline; }
+  .hero-sub {
+    font-size: 16.5px;
+    margin-bottom: 32px;
+    line-height: 1.55;
+  }
+  .hero-cta { gap: 12px; }
+
+  /* Section heads on phones */
+  .section-head h2 { font-size: clamp(34px, 7.2vw, 52px); margin-bottom: 20px; }
+  .section-head p { font-size: 16px; }
+
+  /* Imagine */
+  .imagine h2 { font-size: clamp(34px, 8vw, 54px); margin-bottom: 20px; }
+  .imagine-lede { font-size: 17px; margin-bottom: 48px; }
+  .scenes { gap: 72px; }
+  .scene { gap: 32px; }
+  .scene-copy h3 { font-size: clamp(26px, 6.2vw, 38px); margin-bottom: 20px; }
+  .scene-copy p { font-size: 16px; line-height: 1.65; }
+  .scene-copy .scene-pull { font-size: 16px; padding: 14px 18px; margin-top: 22px; }
+
+  /* Mocks: full-width feel, tighter padding */
+  .mock { border-radius: 16px; }
+  .mock-chrome { padding: 12px 16px; font-size: 11px; gap: 10px; }
+  .mock-chrome-meta { font-size: 10.5px; }
+  .mock-body { padding: 22px 20px 24px; }
+  .mock-subject { font-size: 20px; }
+  .mock-meta { font-size: 11px; margin-bottom: 20px; flex-wrap: wrap; gap: 6px; }
+  .mock-hello { font-size: 14px; margin-bottom: 18px; }
+  .card { padding: 14px 16px; }
+  .card-title { font-size: 15.5px; }
+  .card-text { font-size: 13px; }
+  .card-stat-big { font-size: 26px; }
+  .kpis { gap: 6px; }
+  .kpi { padding: 10px 9px; }
+  .kpi-val { font-size: 19px; }
+
+  /* Ledger table: compact on phone */
+  .ledger { font-size: 12px; }
+  .ledger th, .ledger td { padding: 8px 0; }
+  .ledger td.name { font-size: 14px; }
+  .ledger td.meta { font-size: 11px; }
+  .ledger td.num { font-size: 12px; }
+  .spark { height: 14px; }
+
+  /* Ask section tightened */
+  .ask-sticky-track { padding: 80px 0 90px; }
+  .ask-copy h2 { font-size: clamp(32px, 7.5vw, 48px); margin-bottom: 18px; }
+  .ask-copy p { font-size: 15.5px; line-height: 1.6; }
+  .ask-copy .ask-pull { font-size: 15.5px; padding: 14px 18px; margin-top: 22px; }
+  .ask-copy .ask-ex span { font-size: 11.5px; padding: 6px 11px; }
+
+  /* Chat window: substantial but native on phone */
+  .chat { height: 640px; border-radius: 18px; }
+  .chat-chrome { padding: 12px 16px; font-size: 10.5px; letter-spacing: 0.06em; }
+  .chat-body { padding: 22px 18px 20px; gap: 18px; }
+
+  /* Chat scenes stacked cleanly inside scroll window */
+  .chat-scene { gap: 14px; }
+  .bubble { font-size: 13.5px; line-height: 1.55; padding: 12px 15px; border-radius: 16px; }
+  .bubble.user { max-width: 88%; border-bottom-right-radius: 5px; }
+  .bubble.ai { max-width: 96%; border-bottom-left-radius: 5px; }
+  .bubble.ai .ai-kicker { font-size: 9.5px; margin-bottom: 5px; }
+  .bubble.ai .inline-stat { font-size: 12px; }
+  .bubble.ai .mini-list,
+  .bubble.ai .mini-top,
+  .bubble.ai .mini-bars,
+  .bubble.ai .compare,
+  .bubble.ai .recruit-list { font-size: 11.5px; padding: 10px 12px; }
+  .bubble.ai .mini-list .row b,
+  .bubble.ai .mini-top .row b,
+  .bubble.ai .compare b { font-size: 12.5px; }
+  .bubble.ai .bar-row { grid-template-columns: 30px 1fr auto; gap: 8px; }
+  .bubble.ai .bar-row .bar-name { font-size: 10px; }
+  .bubble.ai .bar-row .bar-val { font-size: 10px; }
+
+  /* Compare rows: single column cleanly stacked */
+  .bubble.ai .compare-row {
+    grid-template-columns: 1fr auto auto;
+    font-size: 10.5px;
+    gap: 6px;
+  }
+  .bubble.ai .compare-name { font-size: 14px; }
+
+  /* Recruit list stacked */
+  .bubble.ai .recruit-head {
+    grid-template-columns: 24px 1fr auto 12px;
+    gap: 8px;
+  }
+  .bubble.ai .recruit-id b { font-size: 13px; }
+  .bubble.ai .recruit-meta { font-size: 10.5px; }
+  .bubble.ai .recruit-score {
+    font-size: 9.5px;
+    padding: 2px 7px;
+  }
+  .bubble.ai .recruit-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .bubble.ai .recruit-stats > div { padding: 5px 7px; }
+  .bubble.ai .recruit-note { font-size: 11.5px; padding: 7px 9px; }
+
+  /* Agent profile card: stack vertical. Avatar · Name+license · Chips · Sparkline */
+  .bubble.ai .agent-card { padding: 16px; border-radius: 12px; }
+  .bubble.ai .agent-card-top {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 10px;
+    padding-bottom: 14px;
+  }
+  .bubble.ai .agent-avatar { width: 64px; height: 64px; }
+  .bubble.ai .agent-avatar svg { width: 64px; height: 64px; }
+  .bubble.ai .agent-name { font-size: 18px; }
+  .bubble.ai .agent-sub { font-size: 11.5px; }
+  .bubble.ai .agent-chips { justify-content: center; }
+  .bubble.ai .agent-chips .chip { font-size: 9.5px; padding: 3px 7px; }
+  .bubble.ai .agent-score {
+    padding: 6px 18px;
+    min-width: 0;
+  }
+  .bubble.ai .agent-score-val { font-size: 20px; }
+  .bubble.ai .agent-prod-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+  .bubble.ai .agent-prod-grid > div { padding: 5px 3px; }
+  .bubble.ai .agent-prod-grid span { font-size: 8.5px; }
+  .bubble.ai .agent-prod-grid b { font-size: 11.5px; }
+  .bubble.ai .agent-trend-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .bubble.ai .agent-trend-row > span { padding-top: 0; }
+  .bubble.ai .spark { height: 44px; }
+  .bubble.ai .agent-note { font-size: 12px; padding: 8px 10px; }
+
+  /* Chat input */
+  .chat-input { padding: 12px 16px; font-size: 13px; }
+  .chat-input .send { width: 28px; height: 28px; }
+
+  /* Briefings → 2 columns still on tablet landscape, collapses at 420 */
+  .briefings { padding: 90px 0 80px; }
+  .brief { padding: 30px 22px; }
+  .brief h4 { font-size: 24px; margin-bottom: 12px; }
+  .brief p { font-size: 14px; }
+
+  /* Signal universe */
+  .universe { padding: 80px 0 90px; }
+  .signal-group { padding: 26px 0; }
+  .signal-group h5 { font-size: 19px; }
+  .signal-group p { font-size: 13.5px; }
+
+  /* Manifesto */
+  .manifesto { padding: 90px 0; }
+  .manifesto-content { padding: 0 22px; }
+  .manifesto h2 {
+    font-size: clamp(28px, 6.6vw, 42px);
+    line-height: 1.18;
+    margin-bottom: 32px;
+  }
+  .manifesto-body p {
+    font-size: 17px;
+    line-height: 1.72;
+    margin-bottom: 20px;
+  }
+  .manifesto-body p.drop::first-letter {
+    font-size: 52px;
+    line-height: 0.9;
+    margin: 4px 10px -2px 0;
+  }
+  .manifesto-body .stress {
+    font-size: 20px;
+    margin: 28px auto;
+  }
+  .manifesto-sign { margin-top: 44px; font-size: 15px; }
+
+  /* CTA */
+  .cta { padding: 90px 0; }
+  .cta h2 {
+    font-size: clamp(34px, 7.4vw, 52px);
+    margin-bottom: 22px;
+  }
+  .cta p {
+    font-size: 16.5px;
+    margin-bottom: 32px;
+  }
+  .cta .hero-cta { flex-direction: column; align-items: stretch; gap: 12px; }
+  .hero-cta { flex-direction: column; align-items: stretch; gap: 12px; }
+  .btn { justify-content: center; padding: 14px 24px; width: 100%; }
+  nav .btn-primary { width: auto; padding: 10px 18px; }
+
+  /* Footer stacks */
+  footer { padding: 32px 0; font-size: 12px; }
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  /* Ribbon */
+  .ribbon-label { font-size: 10px; margin-bottom: 20px; padding: 0 22px; }
+  .ribbon-track { font-size: 17px; padding: 0 22px; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .ribbon-track::-webkit-scrollbar { display: none; }
+  .ribbon-track span { font-size: 17px; padding: 0 16px; flex: 0 0 auto; }
+  .ribbon-track span::after { width: 3px; height: 3px; }
+}
+
+/* ≤ 420px · small phones · ultra-compact */
+@media (max-width: 420px) {
+  .container, .container-narrow { padding: 0 18px; }
+  nav { padding: 14px 16px; }
+  .logo { font-size: 19px; }
+  nav .btn-primary { padding: 9px 14px; font-size: 12.5px; }
+
+  .hero { padding: 108px 0 56px; }
+  .hero h1 {
+    font-size: clamp(34px, 11vw, 48px);
+  }
+  .hero-sub { font-size: 15.5px; }
+
+  /* Briefings → single column on small phones */
+  .briefings-grid { grid-template-columns: 1fr; }
+
+  /* Welcome line before CTA */
+  .cta > .container > div[style] {
+    font-size: 10.5px !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  /* Chat compression */
+  .chat { height: 620px; }
+  .chat-body { padding: 20px 14px 18px; }
+  .bubble { font-size: 13px; padding: 11px 13px; }
+  .bubble.user { max-width: 90%; }
+
+  .bubble.ai .agent-prod-grid { grid-template-columns: repeat(3, 1fr); }
+  .bubble.ai .recruit-stats { grid-template-columns: repeat(2, 1fr); }
+
+  .imagine-lede { font-size: 16px; }
+  .scene-copy p { font-size: 15.5px; }
+  .mock-body { padding: 18px 16px 20px; }
+  .mock-subject { font-size: 18px; }
+
+  /* Ledger on tiny screens: hide Vol column, keep Agent + Trajectory + Fit */
+  .ledger { font-size: 11px; }
+  .ledger th:nth-child(2),
+  .ledger td:nth-child(2) { display: none; }
+
+  .manifesto h2 { font-size: clamp(26px, 7.2vw, 36px); }
+  .manifesto-body p { font-size: 16px; }
+  .manifesto-body p.drop::first-letter {
+    font-size: 46px;
+  }
+
+  .section-head h2 { font-size: clamp(30px, 8vw, 42px); }
+
+  .signal-group h5 { font-size: 18px; }
+
+  .ribbon-track span { font-size: 16px; padding: 0 14px; }
+}
+
+/* Scroll in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-inner">
-    <a href="/" class="brand">Broker<em>OS</em></a>
-    <a href="#signup" class="nav-cta">Start your Monday</a>
+    <div class="logo">Broker<span class="logo-mark-word">OS</span></div>
+    <div class="nav-links">
+      <a href="#ask">Ask Anything</a>
+      <a href="#imagine">Imagine</a>
+      <a href="#briefings">The Briefings</a>
+      <a href="#universe">What it sees</a>
+      <a href="#manifesto">Manifesto</a>
+    </div>
+    <a href="#cta" class="btn btn-primary">Start your Monday <span class="arrow">→</span></a>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="container">
-    <div class="eyebrow">The Monday Brief, for brokerages</div>
-    <h1>See your market.<br>See your roster.<em>Every Monday at 7am.</em></h1>
-    <p class="hero-sub">Every Monday morning, two reports built from MLS data land in your inbox. One for your whole brokerage. One for the broker only. Five hundred dollars a month, brokerage flat. Set up in ten minutes.</p>
-    <div class="cta-row">
-      <a href="#signup" class="btn-primary">Start your first Monday <span class="arrow">→</span></a>
-      <a href="#reports" class="btn-secondary">Read a sample first.</a>
-    </div>
-  </div>
-</header>
-
-<hr class="section-divider"/>
-
-<section id="reports">
-  <div class="container">
-    <span class="section-kicker">The surface · two reports</span>
-    <h2>Two emails. <em>Five minutes of reading.</em></h2>
-
-    <div class="reports-grid">
-      <article class="report-card">
-        <span class="label">Report 01</span>
-        <h3>The Market Report</h3>
-        <p class="audience">For everyone.</p>
-        <p>Median sale price, months of inventory, days on market, supply versus demand. Region and city level. Written, not just charted.</p>
-        <p class="punch">The kind of brief your agents will actually forward to their sphere.</p>
-      </article>
-
-      <article class="report-card">
-        <span class="label">Report 02</span>
-        <h3>The Roster Report</h3>
-        <p class="audience">For brokers only.</p>
-        <p>Your agents' production for the week. Your market share by zip. The top producers in your zips who are not on your roster. Which of your agents went silent on MLS this week.</p>
-        <p class="punch">The recruit watch is the one that earns the subscription.</p>
-      </article>
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-orb a"></div>
+  <div class="hero-orb b"></div>
+  <div class="hero-grain"></div>
+  <div class="container hero-inner">
+    <div class="hero-eyebrow">The intelligence layer for modern brokerages</div>
+    <h1>See your brokerage <span class="line-break">clearly. <em class="accent-word">Every single day.</em></span></h1>
+    <p class="hero-sub">Every night, BrokerOS reads your LoneWolf and MLS data. Every morning, <span class="highlight">the reports that matter</span>. All day, a chat window waiting for whatever you want to know.</p>
+    <div class="hero-cta">
+      <a href="#cta" class="btn btn-primary">Start your Monday brief <span class="arrow">→</span></a>
+      <a href="#imagine" class="btn btn-ghost">Read the story</a>
     </div>
   </div>
 </section>
 
-<hr class="section-divider"/>
+<!-- ═══════ ASK ANYTHING (scroll-driven chat story) ═══════ -->
+<section class="ask" id="ask">
+  <div class="ask-sticky-track" data-ask-track>
+    <div class="ask-sticky-stage">
+      <div class="container">
+        <div class="ask-wrap">
+          <div class="ask-copy">
+            <div class="section-kicker">The surface · I</div>
+            <h2>Chat with your <em>brokerage.</em></h2>
+            <p>Every briefing you get is backed by one correlated model of your company. Which means you can also just ask it anything.</p>
+            <p>Type in plain English. Get the answer in seconds, cited back to the row of data it came from. No SQL, no spreadsheet, no waiting on a report.</p>
+            <div class="ask-pull">"It's the first time my data has been a conversation instead of a wall."</div>
+            <div class="ask-ex">
+              <span>who plateaued last quarter?</span>
+              <span>best time to call Sarah's sphere?</span>
+              <span>which pay plans are losing us money?</span>
+            </div>
+            <div class="ask-scene-dots" data-ask-dots>
+              <span data-dot="0" class="active"></span>
+              <span data-dot="1"></span>
+              <span data-dot="2"></span>
+            </div>
+            <div class="ask-scroll-hint" data-ask-hint>Scroll to continue the conversation</div>
+          </div>
 
-<section id="how">
-  <div class="container">
-    <span class="section-kicker">How it works</span>
-    <h2>Three steps. <em>Ten minutes.</em></h2>
+          <div class="chat" data-ask-chat>
+            <div class="chat-chrome">
+              <div class="chat-chrome-title"><span class="pulse"></span>Ask BrokerOS</div>
+              <div>Paul · Broker</div>
+            </div>
+            <div class="chat-viewport" data-ask-viewport>
+              <div class="chat-fade chat-fade-top"></div>
+              <div class="chat-fade chat-fade-bottom"></div>
+              <div class="chat-body" data-ask-body>
 
-    <div class="steps">
-      <div class="step">
-        <span class="num">01</span>
-        <h4>Tell us where you are.</h4>
-        <p>Brokerage name and MLS. One form.</p>
-      </div>
-      <div class="step">
-        <span class="num">02</span>
-        <h4>Authorize MLS access.</h4>
-        <p>Read-only. Two clicks. No IT ticket.</p>
-      </div>
-      <div class="step">
-        <span class="num">03</span>
-        <h4>Receive your first reports.</h4>
-        <p>Next Monday at 7am. Every Monday after that.</p>
+                <!-- ── Scene 1 ── Office production + market compare ── -->
+                <div class="chat-scene" data-scene="0">
+                  <div class="bubble user">Give me a breakdown of the Grandville office production this month.</div>
+
+                  <div class="bubble ai">
+                    <div class="ai-kicker">Answer · 1.2s · LoneWolf + MLS</div>
+                    Grandville is pacing <strong>above last month</strong>. Through April 22, the office has closed <span class="inline-stat">31 deals</span> for <span class="inline-stat">$412K GCI</span>.
+                    <div class="mini-list">
+                      <div class="row"><b>Closed sides</b><span class="n">31</span></div>
+                      <div class="row"><b>Volume</b><span class="n">$9.8M</span></div>
+                      <div class="row"><b>GCI</b><span class="n">$412,400</span></div>
+                      <div class="row"><b>Avg price</b><span class="n">$316K</span></div>
+                      <div class="row"><b>Vs March</b><span class="n up">▲ 14%</span></div>
+                    </div>
+                    <div class="mini-bars">
+                      <div class="mini-bars-label">Last 6 months · GCI</div>
+                      <div class="bar-row"><span class="bar-name">Nov</span><span class="bar" style="--w:52%"></span><span class="bar-val">$284K</span></div>
+                      <div class="bar-row"><span class="bar-name">Dec</span><span class="bar" style="--w:44%"></span><span class="bar-val">$241K</span></div>
+                      <div class="bar-row"><span class="bar-name">Jan</span><span class="bar" style="--w:58%"></span><span class="bar-val">$318K</span></div>
+                      <div class="bar-row"><span class="bar-name">Feb</span><span class="bar" style="--w:62%"></span><span class="bar-val">$339K</span></div>
+                      <div class="bar-row"><span class="bar-name">Mar</span><span class="bar" style="--w:66%"></span><span class="bar-val">$362K</span></div>
+                      <div class="bar-row is-now"><span class="bar-name">Apr</span><span class="bar" style="--w:75%"></span><span class="bar-val">$412K</span></div>
+                    </div>
+                    <div class="mini-top">
+                      <div class="mini-top-label">Top 3 producers</div>
+                      <div class="row"><b>Sarah Chen</b><span class="n">6 sides · $78K</span></div>
+                      <div class="row"><b>Marcus Webb</b><span class="n">5 sides · $64K</span></div>
+                      <div class="row"><b>Priya Shah</b><span class="n">4 sides · $52K</span></div>
+                    </div>
+                  </div>
+
+                  <div class="bubble user">Compare and contrast Holland versus Muskegon markets right now.</div>
+
+                  <div class="bubble ai">
+                    <div class="ai-kicker">Answer · 0.9s · MichRIC · April 2026</div>
+                    Holland is tighter and pricier. Muskegon is moving faster at the entry level.
+                    <div class="compare">
+                      <div class="compare-col">
+                        <div class="compare-name">Holland</div>
+                        <div class="compare-row"><span>Median price</span><b>$389K</b><span class="delta up">▲ 4.2%</span></div>
+                        <div class="compare-row"><span>Median DOM</span><b>18 days</b><span class="delta down">▼ 3d</span></div>
+                        <div class="compare-row"><span>Active inventory</span><b>94</b><span class="delta down">▼ 11</span></div>
+                        <div class="compare-row"><span>Months supply</span><b>1.6</b><span class="delta flat">flat</span></div>
+                        <div class="compare-row"><span>Sale to list</span><b>99.1%</b><span class="delta up">▲ 0.4</span></div>
+                      </div>
+                      <div class="compare-divider"></div>
+                      <div class="compare-col">
+                        <div class="compare-name">Muskegon</div>
+                        <div class="compare-row"><span>Median price</span><b>$232K</b><span class="delta up">▲ 6.8%</span></div>
+                        <div class="compare-row"><span>Median DOM</span><b>12 days</b><span class="delta down">▼ 5d</span></div>
+                        <div class="compare-row"><span>Active inventory</span><b>142</b><span class="delta down">▼ 18</span></div>
+                        <div class="compare-row"><span>Months supply</span><b>1.9</b><span class="delta down">▼ 0.3</span></div>
+                        <div class="compare-row"><span>Sale to list</span><b>98.6%</b><span class="delta up">▲ 0.7</span></div>
+                      </div>
+                    </div>
+                    Takeaway: Muskegon's price growth is outpacing Holland, but off a smaller base. If you are positioning agents, Holland reads as a listing market, Muskegon as a volume market.
+                  </div>
+                </div>
+
+                <!-- ── Scene 2 ── Recruiting targets ── -->
+                <div class="chat-scene" data-scene="1">
+                  <div class="bubble user">Which agents at competing brokerages would be ideal recruiting targets for us?</div>
+
+                  <div class="bubble ai">
+                    <div class="ai-kicker">Answer · 1.4s · MLS + plateau model</div>
+                    I ranked every non-roster agent in your regional footprint by production, trajectory, roster fit, and current brokerage friction. Top five:
+                    <div class="recruit-list">
+                      <div class="recruit-row open">
+                        <div class="recruit-head">
+                          <span class="recruit-rank">01</span>
+                          <div class="recruit-id">
+                            <b>Rachel Moreno</b>
+                            <span class="recruit-meta">Coldwell Banker Woodland · Grand Haven</span>
+                          </div>
+                          <span class="recruit-score a-plus">A+ fit</span>
+                          <span class="recruit-caret">▾</span>
+                        </div>
+                        <div class="recruit-detail">
+                          <div class="recruit-stats">
+                            <div><span>12mo volume</span><b>$12.4M</b></div>
+                            <div><span>Sides</span><b>38</b></div>
+                            <div><span>Trajectory</span><b class="up">▲ 22%</b></div>
+                            <div><span>Avg price</span><b>$326K</b></div>
+                          </div>
+                          <div class="recruit-note">Team lead pulling 40% of GCI. Her office revised splits unfavorably in March. Warm intro path through Sarah Chen.</div>
+                        </div>
+                      </div>
+                      <div class="recruit-row">
+                        <div class="recruit-head">
+                          <span class="recruit-rank">02</span>
+                          <div class="recruit-id">
+                            <b>Daniela Ortiz</b>
+                            <span class="recruit-meta">RE/MAX Lakeshore · Holland</span>
+                          </div>
+                          <span class="recruit-score a">A fit</span>
+                          <span class="recruit-caret">▸</span>
+                        </div>
+                      </div>
+                      <div class="recruit-row">
+                        <div class="recruit-head">
+                          <span class="recruit-rank">03</span>
+                          <div class="recruit-id">
+                            <b>Jordan Bell</b>
+                            <span class="recruit-meta">Keller Williams · Muskegon</span>
+                          </div>
+                          <span class="recruit-score a">A fit</span>
+                          <span class="recruit-caret">▸</span>
+                        </div>
+                      </div>
+                      <div class="recruit-row">
+                        <div class="recruit-head">
+                          <span class="recruit-rank">04</span>
+                          <div class="recruit-id">
+                            <b>Evan Kowalski</b>
+                            <span class="recruit-meta">Greenridge Realty · Grandville</span>
+                          </div>
+                          <span class="recruit-score b">B+ fit</span>
+                          <span class="recruit-caret">▸</span>
+                        </div>
+                      </div>
+                      <div class="recruit-row">
+                        <div class="recruit-head">
+                          <span class="recruit-rank">05</span>
+                          <div class="recruit-id">
+                            <b>Mia Brennan</b>
+                            <span class="recruit-meta">At Home Realty · Zeeland</span>
+                          </div>
+                          <span class="recruit-score b">B+ fit</span>
+                          <span class="recruit-caret">▸</span>
+                        </div>
+                      </div>
+                    </div>
+                    Rachel is the strongest signal. I have a warm outreach draft ready in your voice. Want me to open it?
+                  </div>
+                </div>
+
+                <!-- ── Scene 3 ── Agent profile card ── -->
+                <div class="chat-scene" data-scene="2">
+                  <div class="bubble user">Tell me about Rachel Moreno.</div>
+
+                  <div class="bubble ai">
+                    <div class="ai-kicker">Profile · pulled 22 Apr · 6 sources</div>
+                    <div class="agent-card">
+                      <div class="agent-card-top">
+                        <div class="agent-avatar">
+                          <svg viewBox="0 0 80 80" width="72" height="72" aria-hidden="true">
+                            <defs>
+                              <radialGradient id="agrad" cx="35%" cy="30%" r="75%">
+                                <stop offset="0%" stop-color="#F8EFD7"/>
+                                <stop offset="100%" stop-color="#E3D5B2"/>
+                              </radialGradient>
+                            </defs>
+                            <circle cx="40" cy="40" r="38" fill="url(#agrad)" stroke="#B07A3A" stroke-width="1" stroke-opacity="0.55"/>
+                            <circle cx="40" cy="32" r="12" fill="#24402F" fill-opacity="0.28"/>
+                            <path d="M18 66 C22 52, 58 52, 62 66 Z" fill="#24402F" fill-opacity="0.28"/>
+                          </svg>
+                        </div>
+                        <div class="agent-id">
+                          <div class="agent-name">Rachel Moreno</div>
+                          <div class="agent-sub">Residential Sales · Grand Haven, MI</div>
+                          <div class="agent-chips">
+                            <span class="chip">License · MI 6501438291</span>
+                            <span class="chip">Coldwell Banker Woodland</span>
+                          </div>
+                        </div>
+                        <div class="agent-score">
+                          <div class="agent-score-val">A+</div>
+                          <div class="agent-score-label">Recruit fit</div>
+                        </div>
+                      </div>
+
+                      <div class="agent-boards">
+                        <div class="agent-boards-label">MLS boards</div>
+                        <div class="agent-boards-list">
+                          <span>MichRIC</span>
+                          <span>NGLR</span>
+                          <span>West Michigan Lakeshore Assoc.</span>
+                        </div>
+                      </div>
+
+                      <div class="agent-prod">
+                        <div class="agent-prod-label">5-year production</div>
+                        <svg class="spark" viewBox="0 0 240 64" preserveAspectRatio="none" aria-hidden="true">
+                          <defs>
+                            <linearGradient id="sparkfill" x1="0" x2="0" y1="0" y2="1">
+                              <stop offset="0%" stop-color="#B07A3A" stop-opacity="0.35"/>
+                              <stop offset="100%" stop-color="#B07A3A" stop-opacity="0"/>
+                            </linearGradient>
+                          </defs>
+                          <path d="M0,48 L48,42 L96,38 L144,30 L192,20 L240,10 L240,64 L0,64 Z" fill="url(#sparkfill)"/>
+                          <path d="M0,48 L48,42 L96,38 L144,30 L192,20 L240,10" fill="none" stroke="#B07A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle cx="240" cy="10" r="3.5" fill="#B07A3A"/>
+                        </svg>
+                        <div class="agent-prod-grid">
+                          <div><span>2021</span><b>$4.8M</b></div>
+                          <div><span>2022</span><b>$6.2M</b></div>
+                          <div><span>2023</span><b>$7.9M</b></div>
+                          <div><span>2024</span><b>$9.6M</b></div>
+                          <div><span>2025</span><b>$11.2M</b></div>
+                          <div class="is-now"><span>12mo</span><b>$12.4M</b></div>
+                        </div>
+                      </div>
+
+                      <div class="agent-trend">
+                        <div class="agent-trend-row">
+                          <span>Trajectory</span>
+                          <b class="up">▲ Rising · 5 yrs consecutive</b>
+                        </div>
+                        <div class="agent-trend-row">
+                          <span>Last 12 months</span>
+                          <b class="up">▲ 22% volume, ▲ 14% sides</b>
+                        </div>
+                        <div class="agent-trend-row">
+                          <span>Current signal</span>
+                          <b>Split revision at current brokerage · plateau risk low</b>
+                        </div>
+                      </div>
+
+                      <div class="agent-note">
+                        Strong listing agent with a lakeshore specialty. Fits your Grand Haven and Spring Lake roster gap. Warm intro path available through Sarah Chen.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="typing" data-ask-typing><span></span><span></span><span></span></div>
+              </div>
+            </div>
+            <div class="chat-input">
+              <span data-ask-placeholder>Ask anything about your company</span>
+              <span class="caret"></span>
+              <span class="send">↑</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="section-divider"/>
+<!-- ═══════ INTEGRATION RIBBON ═══════ -->
+<section class="ribbon">
+  <div class="ribbon-label">Composed from the systems you already pay for</div>
+  <div class="ribbon-track">
+    <span>LoneWolf</span>
+    <span>MLS</span>
+    <span>MoxiWorks</span>
+    <span>Skyslope</span>
+    <span>Dotloop</span>
+    <span>Google Workspace</span>
+    <span>Commission Plans</span>
+  </div>
+</section>
 
-<section id="signup" class="pricing-section">
+<!-- ═══════ IMAGINE ═══════ -->
+<section class="imagine" id="imagine">
   <div class="container">
-    <div class="pricing-tile">
-      <span class="label">Pricing</span>
-      <div class="price">$500<span>/month</span></div>
-      <p class="sub">Brokerage flat. No setup fee. No annual contract. Cancel anytime.</p>
-      <p class="terms">A single line item on your corporate card. Set up in ten minutes. First reports go out the following Monday at 7am.</p>
-      <a href="https://getbrokeros.ai/signup" class="btn-pricing">Sign up <span>→</span></a>
-      <p class="founding">Locked-in pricing for the first 30 days of customers. Even if the price moves later.</p>
+    <div class="section-kicker">The story · I</div>
+    <h2>Imagine a world where your <em>data</em> works for you.</h2>
+    <p class="imagine-lede">Not the other way around. Six scenes from a brokerage running on BrokerOS.</p>
+
+    <div class="scenes">
+
+      <!-- Scene 1 — Morning Briefing -->
+      <div class="scene fade-in">
+        <div class="scene-copy">
+          <div class="scene-index">Scene 01 · The Morning</div>
+          <h3>You open your inbox. Your day is <em>already sorted.</em></h3>
+          <p>Every morning at 6:30am, every leader in your company gets a briefing shaped to their role. Birthdays. Closings. Agents to call. Deals at risk. Market movement. All of it, in one letter.</p>
+          <p>No dashboards. No logins. No reports to run.</p>
+          <div class="scene-pull">"I used to spend the first hour of every day trying to figure out what happened yesterday. Now I know before I sit down."</div>
+        </div>
+        <div class="mock">
+          <div class="mock-chrome">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-meta">inbox · briefing@brokeros.ai</div>
+            <div>6:31 AM</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-subject">Good morning, Paul. Here's your Tuesday.</div>
+            <div class="mock-meta">
+              <span>BrokerOS Daily · Broker edition</span>
+              <span>Apr 22 · 2026</span>
+            </div>
+            <div class="mock-hello">Three things worth your time before coffee. One celebration, one save, one opportunity.</div>
+
+            <div class="card accent">
+              <div class="card-label">People moment</div>
+              <div class="card-title">Sarah Chen, three years today</div>
+              <div class="card-text">Grand Rapids office. 47 closings this year, her best on record. A two-line note from you would land well.</div>
+              <div class="card-actions">
+                <span class="chip primary">Send note →</span>
+                <span class="chip">See profile</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-label">Just capped</div>
+              <div class="card-title">Tom Rivera hit cap at 9:47 PM</div>
+              <div class="card-text">First cap of his career. Celebration workflow queued: Slack, text, social, cake.</div>
+            </div>
+
+            <div class="card alert">
+              <div class="card-label">Retention radar · 60-day line</div>
+              <div class="card-title">Three agents now flagged</div>
+              <div class="card-text">Jessica, Mark, and Derek. Production down, pipeline thin, CRM quiet. Drafts ready for review.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 2 — Retention Pulse -->
+      <div class="scene fade-in">
+        <div class="scene-copy">
+          <div class="scene-index">Scene 02 · Retention Pulse</div>
+          <h3>You solve the retention problem <em>six weeks early.</em></h3>
+          <p>Most brokers find out an agent is leaving the week they hand in their license. By then the recruiter has already won.</p>
+          <p>BrokerOS watches every agent's production curve, engagement signal, pay-plan fit, and market activity, and flags who's trending toward the door. With the draft message already written.</p>
+          <div class="scene-pull">"We saved four agents last quarter who we didn't even realize were drifting. That paid for the whole product, twice."</div>
+        </div>
+        <div class="mock">
+          <div class="mock-chrome">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-meta">Retention Pulse · Weekly</div>
+            <div>Apr 22</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-subject">Three agents flagged this week</div>
+            <div class="mock-meta">
+              <span>Composite at-risk score · updated hourly</span>
+              <span>3 of 214</span>
+            </div>
+
+            <div class="card alert">
+              <div class="card-label">Critical · 90-day silence</div>
+              <div class="card-title">Jessica Park</div>
+              <div class="card-text">Last closing Jan 28. Pipeline empty. CRM activity down 70% vs Q1. Recent MLS searches in competitor's zip.</div>
+              <div class="card-stat">
+                <div class="card-stat-big">91</div>
+                <div class="card-stat-label">days since close</div>
+              </div>
+              <div class="card-actions">
+                <span class="chip primary">Draft coffee invite</span>
+                <span class="chip">See timeline</span>
+              </div>
+            </div>
+
+            <div class="card soft">
+              <div class="card-label">Warning · 60-day</div>
+              <div class="card-title">Mark Stephens</div>
+              <div class="card-text">Production down 58% YoY. Listing inventory dropped to zero last week. Attended 1 of last 6 office events.</div>
+            </div>
+
+            <div class="card soft">
+              <div class="card-label">Early signal</div>
+              <div class="card-title">Derek Alves</div>
+              <div class="card-text">Pipeline down 40%. Pay-plan fit mismatched since March. Easy save.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 3 — Recruit Intelligence (pushed further) -->
+      <div class="scene fade-in">
+        <div class="scene-copy">
+          <div class="scene-index">Scene 03 · Recruit Intelligence</div>
+          <h3>You recruit with <em>actual intelligence.</em> Not LinkedIn guesses.</h3>
+          <p>Type a zip code. Get every top producer there who isn't on your roster, ranked by production trajectory, plateau signals, common clients, and pay-plan fit against your comp structure.</p>
+          <p>Outreach drafts personalized to each one. The reason they're ready to move, in one line. Your recruiting pipeline just became a search bar.</p>
+          <div class="scene-pull">"We made three hires last quarter we would never have identified. Two of them were already unhappy. We just knew first."</div>
+        </div>
+        <div class="mock">
+          <div class="mock-chrome">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-meta">Recruit Intelligence · 49503 Grand Rapids</div>
+            <div>Live</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-subject">18 producers in 49503 worth your attention</div>
+            <div class="mock-meta">
+              <span>Ranked · 12-mo trajectory × plateau × fit</span>
+              <span>Top 5 shown</span>
+            </div>
+
+            <table class="ledger">
+              <thead>
+                <tr>
+                  <th>Agent</th>
+                  <th>Brokerage</th>
+                  <th style="text-align:right;">Trajectory</th>
+                  <th style="text-align:right;">Vol 12mo</th>
+                  <th style="text-align:right;">Fit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="name">Rachel Moreno</td>
+                  <td class="meta">Keller Williams</td>
+                  <td class="num"><span class="spark hot"><i style="height:4px"></i><i style="height:8px"></i><i style="height:14px"></i><i style="height:11px"></i><i style="height:16px"></i><i style="height:18px"></i></span></td>
+                  <td class="num hot">$12.4M</td>
+                  <td class="num hot">A+</td>
+                </tr>
+                <tr>
+                  <td class="name">Alex Thompson</td>
+                  <td class="meta">Coldwell Banker</td>
+                  <td class="num"><span class="spark"><i style="height:10px"></i><i style="height:12px"></i><i style="height:8px"></i><i style="height:14px"></i><i style="height:12px"></i><i style="height:13px"></i></span></td>
+                  <td class="num">$6.1M</td>
+                  <td class="num">A</td>
+                </tr>
+                <tr>
+                  <td class="name">Daniela Ortiz</td>
+                  <td class="meta">RE/MAX</td>
+                  <td class="num"><span class="spark hot"><i style="height:6px"></i><i style="height:9px"></i><i style="height:11px"></i><i style="height:12px"></i><i style="height:14px"></i><i style="height:17px"></i></span></td>
+                  <td class="num">$5.8M</td>
+                  <td class="num">A</td>
+                </tr>
+                <tr>
+                  <td class="name">Marcus Lee</td>
+                  <td class="meta">eXp</td>
+                  <td class="num"><span class="spark cool"><i style="height:16px"></i><i style="height:12px"></i><i style="height:14px"></i><i style="height:10px"></i><i style="height:9px"></i><i style="height:7px"></i></span></td>
+                  <td class="num cool">$4.9M</td>
+                  <td class="num">B+</td>
+                </tr>
+                <tr>
+                  <td class="name">Priya Shah</td>
+                  <td class="meta">Berkshire Hathaway</td>
+                  <td class="num"><span class="spark"><i style="height:8px"></i><i style="height:10px"></i><i style="height:12px"></i><i style="height:11px"></i><i style="height:13px"></i><i style="height:12px"></i></span></td>
+                  <td class="num">$4.2M</td>
+                  <td class="num">B+</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="card accent" style="margin-top: 22px;">
+              <div class="card-label">Why Rachel, right now</div>
+              <div class="card-title">Three compounding signals</div>
+              <div class="card-text">
+                1. Top 3 in her market. Plateaued under a team lead pulling 40% of her GCI.<br>
+                2. Listed two former clients under her own name last quarter. Rebuilding her book.<br>
+                3. Her office announced a commission split revision two weeks ago. Timing is rare.
+              </div>
+              <div class="card-actions">
+                <span class="chip primary">Open outreach draft</span>
+                <span class="chip">See her book of past clients</span>
+                <span class="chip">Run fit against your roster</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 4 — Milestones (pushed further) -->
+      <div class="scene fade-in">
+        <div class="scene-copy">
+          <div class="scene-index">Scene 04 · Milestones, Live</div>
+          <h3>Every moment is felt. <em>Automatically.</em></h3>
+          <p>An agent caps. A deal closes. A first-year rookie lists their first home. A ten-year anniversary hits the calendar. The system sees the event the second it happens, and the whole celebration, text, post, cake, voicemail from you, is drafted and waiting on your approval.</p>
+          <p>Culture stops being a thing you remember to do. It becomes infrastructure.</p>
+          <div class="scene-pull">"Our best agents used to quietly have huge moments nobody clocked. Now the whole company knows within minutes."</div>
+        </div>
+        <div class="mock">
+          <div class="mock-chrome">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-meta">Milestone · Live feed</div>
+            <div>2 min ago</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-subject">Tom just closed his first deal.</div>
+            <div class="mock-meta">
+              <span>Trigger · First Closing · auto-fired 11:42 AM</span>
+              <span>Apr 22</span>
+            </div>
+            <div class="mock-hello">You'll want to send something. We've already written most of it.</div>
+
+            <div class="card accent">
+              <div class="card-label">The moment</div>
+              <div class="card-title">Tom Rivera · 4721 Oakwood Dr</div>
+              <div class="card-text">$387,500 · Grand Rapids office · closed 11:42 AM today. Represented buyer. First of his career.</div>
+
+              <div class="timeline">
+                <div class="timeline-item hot"><span class="t">11:42</span><strong>CDA signed</strong>, deal status flipped to Closed in LoneWolf.</div>
+                <div class="timeline-item"><span class="t">11:43</span>First-Closing trigger fired, six workflows queued.</div>
+                <div class="timeline-item"><span class="t">11:44</span>Sign photo pulled from MLS, social graphic generated.</div>
+                <div class="timeline-item"><span class="t">11:45</span>Personal text from you, drafted in your voice.</div>
+                <div class="timeline-item"><span class="t">11:46</span>Office Slack post composed, mentor tagged.</div>
+                <div class="timeline-item"><span class="t">11:47</span>Cake scheduled for tomorrow 9 AM, delivery confirmed.</div>
+              </div>
+            </div>
+
+            <div class="card soft">
+              <div class="card-label">Ready on your approval</div>
+              <div class="card-title">Six pieces, one tap to fire</div>
+              <div class="card-actions">
+                <span class="chip primary">Approve all</span>
+                <span class="chip">Edit text</span>
+                <span class="chip">Hold 24h</span>
+                <span class="chip">Skip</span>
+              </div>
+            </div>
+
+            <div class="mock-footer">One moment. Six channels. Nine seconds of your time.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 5 — Market Monday (NEW) -->
+      <div class="scene fade-in">
+        <div class="scene-copy">
+          <div class="scene-index">Scene 05 · Market Monday</div>
+          <h3>Your agents get the market. <em>In your voice.</em></h3>
+          <p>Every Monday at 7 AM, every agent on your roster gets a market letter shaped to the zips they actually sell. Rate watch, inventory shifts, absorption changes, the three homes that resold above last year, and your take at the top.</p>
+          <p>The stats they need to sound smart on Monday morning calls. Already in their pocket. Sent under your logo.</p>
+          <div class="scene-pull">"My agents used to open Zillow for talking points. Now they open our letter. Branded, beautiful, and better than anything a portal sends them."</div>
+        </div>
+        <div class="mock">
+          <div class="mock-chrome">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-meta">Market Monday · Grand Rapids Metro</div>
+            <div>7:02 AM</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-subject">The market this week, in one page.</div>
+            <div class="mock-meta">
+              <span>BrokerOS Market · Agent edition</span>
+              <span>Week of Apr 20 · 2026</span>
+            </div>
+
+            <div class="kpis">
+              <div class="kpi">
+                <div class="kpi-label">Median price</div>
+                <div class="kpi-val accent">$341K</div>
+                <div class="kpi-delta up">▲ 3.2% WoW</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Active listings</div>
+                <div class="kpi-val">412</div>
+                <div class="kpi-delta up">▲ 28 this week</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Days on market</div>
+                <div class="kpi-val">14</div>
+                <div class="kpi-delta down">▼ 3 days</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">30-yr fixed</div>
+                <div class="kpi-val">6.78%</div>
+                <div class="kpi-delta down">▼ 11 bps</div>
+              </div>
+            </div>
+
+            <div class="card accent">
+              <div class="card-label">Zip-level heat · 12 weeks rolling</div>
+              <div class="card-title">49503 and 49546 are warming fast</div>
+              <div class="card-text">Absorption jumped 18% in both. Buyer urgency index at a six-month high. If your clients are on the fence, this is the week.</div>
+              <div class="heat-grid" aria-hidden="true">
+                <div class="heat-cell"></div><div class="heat-cell"></div><div class="heat-cell c1"></div><div class="heat-cell c1"></div><div class="heat-cell h1"></div><div class="heat-cell h2"></div>
+                <div class="heat-cell"></div><div class="heat-cell c1"></div><div class="heat-cell c1"></div><div class="heat-cell h1"></div><div class="heat-cell h2"></div><div class="heat-cell h3"></div>
+                <div class="heat-cell c1"></div><div class="heat-cell c2"></div><div class="heat-cell h1"></div><div class="heat-cell h2"></div><div class="heat-cell h3"></div><div class="heat-cell h4"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-label">Paul's take · this week</div>
+              <div class="card-title">"The rate dip is real. Use it."</div>
+              <div class="card-text">Two of our top producers wrote their best weeks of 2026 last week. When rates slip a quarter point, your sideline buyers wake up. Call the ones who ghosted you in March. We have a script for you below.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 6 — Executive Intelligence (NEW) -->
+      <div class="scene fade-in">
+        <div class="scene-copy">
+          <div class="scene-index">Scene 06 · Executive Intelligence</div>
+          <h3>Your Monday board meeting is <em>already written.</em></h3>
+          <p>Market share by zip. Agent cohort performance by tenure band. Competitor movement and who they just hired from you. Commission plan P&L. Office productivity delta. Cash-flow runway at current burn.</p>
+          <p>Everything you used to ask your CFO for on Friday afternoon, composed by Sunday night. Clean enough to send to your board. Honest enough to set your week.</p>
+          <div class="scene-pull">"I stopped preparing for Monday. Monday prepares itself. I just show up and run the meeting."</div>
+        </div>
+        <div class="mock">
+          <div class="mock-chrome">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-meta">Executive Intelligence · Owner edition</div>
+            <div>Sun 9:14 PM</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-subject">The state of the company, week of Apr 20.</div>
+            <div class="mock-meta">
+              <span>Board-ready · confidential</span>
+              <span>214 agents · 6 offices</span>
+            </div>
+
+            <div class="kpis">
+              <div class="kpi">
+                <div class="kpi-label">GCI MTD</div>
+                <div class="kpi-val accent">$1.84M</div>
+                <div class="kpi-delta up">▲ 11% YoY</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Market share</div>
+                <div class="kpi-val">14.2%</div>
+                <div class="kpi-delta up">▲ 0.6pt</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Net agent count</div>
+                <div class="kpi-val">+4</div>
+                <div class="kpi-delta up">▲ Q2 target</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Attrition risk</div>
+                <div class="kpi-val">3</div>
+                <div class="kpi-delta down">▼ flagged</div>
+              </div>
+            </div>
+
+            <div class="card accent">
+              <div class="card-label">Competitor watch · last 7 days</div>
+              <div class="card-title">Coldwell Banker Grand Rapids is bleeding</div>
+              <div class="card-text">Two top-20 producers exited to eXp. Three more have slowed materially. Our recruit list has already refreshed, with four of them now high-fit. Your briefing tomorrow will surface the two most ready.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-label">Cohort signal · 2024 class</div>
+              <div class="card-title">The rookie class is outperforming</div>
+              <div class="card-text">Year-2 agents from 2024 are running 23% ahead of the 2022 cohort at the same tenure mark. Something changed in onboarding that quarter. Worth recreating for 2026.</div>
+              <div class="card-actions">
+                <span class="chip primary">Open cohort deep-dive</span>
+                <span class="chip">Send to ops</span>
+              </div>
+            </div>
+
+            <div class="card soft">
+              <div class="card-label">Strategic posture</div>
+              <div class="card-title">Three things to raise tomorrow</div>
+              <div class="card-text">
+                1. Grand Haven office is plateauing. Three levers available.<br>
+                2. Commission plan C is now margin-negative on 14 agents.<br>
+                3. Competitor instability opens a 30-day recruiting window.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<hr class="section-divider"/>
-
-<section id="objections">
+<!-- ═══════ SEVEN BRIEFINGS ═══════ -->
+<section class="briefings" id="briefings">
   <div class="container">
-    <span class="section-kicker">Likely questions</span>
-    <h2>The short answers.</h2>
-
-    <div class="objections">
-      <div class="obj">
-        <h4>Is this another dashboard?</h4>
-        <p>No. Two emails. Nothing to log into.</p>
-      </div>
-      <div class="obj">
-        <h4>What about my LoneWolf data?</h4>
-        <p>The wedge is MLS only. The rest is roadmap.</p>
-      </div>
-      <div class="obj">
-        <h4>What if it is not useful?</h4>
-        <p>Cancel from the same page you signed up on.</p>
-      </div>
+    <div class="section-head">
+      <div class="section-kicker">The product · II</div>
+      <h2>Seven briefings.<br>Every role. <em>Every leader.</em></h2>
+      <p>Not one dashboard trying to serve everyone. A tailored letter for each layer of your company. All composed from the same engine. All beautiful enough to read with a second coffee.</p>
     </div>
 
-    <p class="faq-link"><a href="/faq">Read the full FAQ →</a></p>
+    <div class="briefings-grid">
+      <div class="brief">
+        <div class="brief-num">01</div>
+        <h4>The Morning</h4>
+        <p>Birthdays, closings, milestones, retention flags, market movement. Delivered 6:30 AM. Role-shaped.</p>
+        <div class="brief-meta">Audience · <span>every leader</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">02</div>
+        <h4>Market Monday</h4>
+        <p>City-by-city intel, rate watch, inventory shifts, absorption trends. The stats your agents need, in your voice.</p>
+        <div class="brief-meta">Audience · <span>every agent</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">03</div>
+        <h4>Retention Pulse</h4>
+        <p>The early-warning system. Flags disengagement six weeks before a resignation. Drafts in hand.</p>
+        <div class="brief-meta">Audience · <span>broker · managing broker</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">04</div>
+        <h4>Recruit Intelligence</h4>
+        <p>Top producers in your zips not on your roster. Plateau signals, competitor stress, outreach drafts.</p>
+        <div class="brief-meta">Audience · <span>broker · recruiter</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">05</div>
+        <h4>Office Health</h4>
+        <p>Pipeline, productivity, culture score, retention rate, plan distribution, space, P&amp;L. One page.</p>
+        <div class="brief-meta">Audience · <span>office · regional</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">06</div>
+        <h4>Executive Intelligence</h4>
+        <p>Board-ready roll-ups. Market share. Agent cohort analysis. Competitor movement. Strategic posture.</p>
+        <div class="brief-meta">Audience · <span>owner · CEO</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">07</div>
+        <h4>Milestones, Live</h4>
+        <p>Real-time, event-fired. Caps, first deals, records, anniversaries. Celebration workflows pre-drafted.</p>
+        <div class="brief-meta">Audience · <span>company-wide</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">＋</div>
+        <h4>Ask Anything</h4>
+        <p>Plain-English questions, answered in seconds. "Who should I recruit in Grand Haven?" "Which offices cooled this month?"</p>
+        <div class="brief-meta">Surface · <span>chat · voice · mobile</span></div>
+      </div>
+      <div class="brief">
+        <div class="brief-num">∞</div>
+        <h4>One Engine</h4>
+        <p>Underneath, a single correlated model of your brokerage. Every new integration makes every briefing sharper.</p>
+        <div class="brief-meta">Pattern · <span>compounding intelligence</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SIGNAL UNIVERSE ═══════ -->
+<section class="universe" id="universe">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">The universe · IV</div>
+      <h2>150+ signals. <em>One calm inbox.</em></h2>
+      <p>Every piece of data your brokerage already owns, finally speaking to you. Here's what's watching, so you don't have to.</p>
+    </div>
+
+    <div class="universe-grid">
+      <div class="signal-col">
+        <div class="signal-group">
+          <h5>People Moments</h5>
+          <span class="count">11 signals</span>
+          <p>Birthdays, anniversaries, first closings, onboarding milestones, tenure achievements, baby announcements, weddings, promotions, departures.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Production Pulse</h5>
+          <span class="count">12 signals</span>
+          <p>Yesterday's closings, new listings, pendings, fallthroughs, capping, personal records, office records, highest-volume deals, streaks.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Retention Radar</h5>
+          <span class="count">11 signals</span>
+          <p>60/90-day no-close alerts, production drops, zero listings, CRM dormancy, license warnings, composite at-risk scoring, exit signals.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Agent Development</h5>
+          <span class="count">6 signals</span>
+          <p>Skill-gap analysis, training recommendations, mentor matching, certification pathways, peer benchmarking, learning plans.</p>
+        </div>
+      </div>
+
+      <div class="signal-col">
+        <div class="signal-group">
+          <h5>Market Intelligence</h5>
+          <span class="count">9 signals</span>
+          <p>Daily market movement, inventory shifts, rate watch, hot and cooling markets, industry news feeds, zip-level deep dive.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Recruiting Signals</h5>
+          <span class="count">10 signals</span>
+          <p>Top-producer lookup, rising stars, competitor instability, plateau detection, vulnerable team leads, past-agent resurfacing.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Commission &amp; Finance</h5>
+          <span class="count">8 signals</span>
+          <p>Per-agent economics, plan optimization, cash-flow forecasting, audit flags, split discrepancies, referral-fee tracking.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Office Health</h5>
+          <span class="count">8 signals</span>
+          <p>Pipeline value, productivity per agent, retention rate, culture score, pay-plan distribution, space utilization, office P&amp;L.</p>
+        </div>
+      </div>
+
+      <div class="signal-col">
+        <div class="signal-group">
+          <h5>Transaction Health</h5>
+          <span class="count">9 signals</span>
+          <p>Missing docs, SLA breaches, agency-disclosure gaps, earnest-money issues, title problems, inspection concerns.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Compliance</h5>
+          <span class="count">7 signals</span>
+          <p>License status, CE tracking, fair-housing training, Code of Ethics, E&amp;O status, anti-trust compliance.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Red-Flag Alerts</h5>
+          <span class="count">9 signals</span>
+          <p>Complaints, discipline actions, wire-fraud risks, lead-response failures, deal-at-risk indicators, client-communication gaps.</p>
+        </div>
+        <div class="signal-group">
+          <h5>Online Presence</h5>
+          <span class="count">8 signals</span>
+          <p>Review monitoring (Google, Zillow), MLS photo quality, brand compliance, email-signature compliance, profile health.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ MANIFESTO ═══════ -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-content">
+    <div class="section-kicker" style="text-align:center; display:block;">Manifesto · V</div>
+    <h2>For too long, the software running our industry has been built <em>for the industry.</em> Not for the people running it.</h2>
+
+    <div class="manifesto-body">
+      <p class="drop">LoneWolf holds your transactions. MoxiWorks holds your CRM. Skyslope holds your compliance. Your MLS holds the market. Each a walled garden. Each guarding the data you already pay for, behind logins, broken filters, and UIs that look like 1999.</p>
+      <p>None of them talk to each other. None of them tell you what matters today. None of them have any incentive to get better. They already have your money.</p>
+
+      <div class="stress">Meanwhile, the actual work of running a brokerage happens in your head.</div>
+
+      <p>Or in a coordinator's head. Or in a spreadsheet nobody trusts. Or, most often, not at all. So the birthdays get missed. The retention calls happen after the resignation. The recruit you should have made gets hired by the brokerage down the street. The first-deal moment, the one that would have bought you a decade of loyalty, passes without a text.</p>
+
+      <p>The data was there. It was always there. Nothing unlocked it.</p>
+
+      <p><strong style="color: var(--green-ink); font-weight: 500;">BrokerOS is the layer they never built.</strong> The one that connects everything, speaks plain English, and works for you. Read-only. No migration. No rip-and-replace. Beautiful enough to actually read.</p>
+    </div>
+
+    <div class="manifesto-sign">This is your data. It's time to unlock it.</div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="cta" id="cta">
+  <div class="container">
+    <div class="section-kicker">Available now · VI</div>
+    <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 20px; opacity: 0.85;">Start with the Monday brief</div>
+    <h2>Two reports, every Monday at <em>7am.</em></h2>
+    <p style="max-width: 56ch; margin-bottom: 36px;">The Monday brief is the front door. A market report for your whole brokerage, and a roster report for the broker. Both built from your MLS feed alone. Set up in ten minutes. The rest of BrokerOS arrives when you're ready.</p>
+
+    <div style="background: rgba(244, 236, 216, 0.08); border: 1px solid rgba(244, 236, 216, 0.18); border-radius: 4px; padding: 36px 32px; max-width: 520px; margin: 0 auto 32px auto; text-align: center;">
+      <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 18px; opacity: 0.9;">Pricing</div>
+      <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 300; font-size: 64px; line-height: 1; letter-spacing: -0.02em; color: var(--cream-light); margin-bottom: 6px;">$500<span style="font-size: 20px; opacity: 0.65;">/month</span></div>
+      <div style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 16px; color: var(--cream-light); opacity: 0.78; margin-bottom: 22px;">Brokerage flat. Cancel anytime.</div>
+      <div style="font-size: 13px; color: var(--cream-light); opacity: 0.62; line-height: 1.6;">No per-agent math. No setup fee. No annual contract. Locked-in for the first 30 days of customers.</div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="mailto:hello@brokeros.ai?subject=Start%20my%20Monday%20brief" class="btn btn-primary" style="background: var(--cream-light); color: var(--green-ink);">Start your Monday <span class="arrow">→</span></a>
+      <a href="#imagine" class="btn btn-ghost on-dark">See the product tour</a>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="container footer-inner">
-    <span>BrokerOS · The intelligence layer for modern brokerages</span>
-    <span class="domain">getbrokeros.ai</span>
+    <div>BrokerOS · Built by brokers, for brokers.</div>
+    <div><a href="mailto:hello@brokeros.ai">hello@brokeros.ai</a> · © 2026</div>
   </div>
 </footer>
+
+<script>
+// Fade-in on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+// ───────── Scroll-driven Ask Anything chat ─────────
+(function(){
+  const track = document.querySelector('[data-ask-track]');
+  if (!track) return;
+  const body = document.querySelector('[data-ask-body]');
+  const viewport = document.querySelector('[data-ask-viewport]');
+  const typing = document.querySelector('[data-ask-typing]');
+  const placeholder = document.querySelector('[data-ask-placeholder]');
+  const dots = document.querySelectorAll('[data-ask-dots] span');
+  const scenes = Array.from(document.querySelectorAll('.chat-scene'));
+  const hint = document.querySelector('[data-ask-hint]');
+  const chat = document.querySelector('[data-ask-chat]');
+  if (!body || !viewport || !chat || scenes.length === 0) return;
+
+  const placeholders = [
+    'Ask anything about your company',
+    'Try: which agents should I recruit this week?',
+    'Try: show me a profile on Rachel Moreno'
+  ];
+
+  // Mobile fallback: make viewport natively scrollable, no driver
+  const mq = window.matchMedia('(max-width: 1000px)');
+  let driverActive = false;
+  let rafId = null;
+  let targetY = 0;
+  let currentY = 0;
+
+  function setFallback() {
+    driverActive = false;
+    chat.classList.remove('ask-driven');
+    viewport.classList.add('is-scrollable');
+    body.style.transform = '';
+    scenes.forEach(s => s.classList.add('is-active'));
+    if (typing) typing.style.display = 'none';
+    if (hint) hint.style.display = 'none';
+    dots.forEach(d => d.classList.add('active'));
+    if (rafId) cancelAnimationFrame(rafId);
+  }
+
+  function setDriver() {
+    driverActive = true;
+    chat.classList.add('ask-driven');
+    viewport.classList.remove('is-scrollable');
+    if (hint) hint.style.display = '';
+    update();
+  }
+
+  function applyScene(index, progressInScene) {
+    scenes.forEach((s, i) => s.classList.toggle('is-active', i === index));
+    dots.forEach((d, i) => d.classList.toggle('active', i <= index));
+    if (placeholder) placeholder.textContent = placeholders[index] || placeholders[0];
+
+    // Show typing indicator near the transition between scenes
+    if (typing) {
+      const nearTransition = progressInScene > 0.85 && index < scenes.length - 1;
+      typing.style.display = nearTransition ? 'inline-flex' : 'none';
+    }
+    if (hint) {
+      hint.style.opacity = index === scenes.length - 1 && progressInScene > 0.7 ? '0.3' : '0.8';
+    }
+  }
+
+  function getMaxScroll() {
+    // Total scrollable distance inside the chat body.
+    // We want the reader to travel smoothly from the very top of the first
+    // message all the way to the bottom of the last scene, with the last
+    // question still fully visible at the end.
+    const vh = viewport.clientHeight;
+    const bodyHeight = body.scrollHeight;
+    return Math.max(0, bodyHeight - vh + 24);
+  }
+
+  function activeSceneFromY(y) {
+    // Find which scene currently occupies the viewport mid-line
+    const midline = y + viewport.clientHeight * 0.45;
+    for (let i = scenes.length - 1; i >= 0; i--) {
+      if (midline >= scenes[i].offsetTop) {
+        const sceneHeight = scenes[i].offsetHeight;
+        const inScene = Math.min(Math.max((midline - scenes[i].offsetTop) / sceneHeight, 0), 1);
+        return { index: i, inScene };
+      }
+    }
+    return { index: 0, inScene: 0 };
+  }
+
+  function update() {
+    if (!driverActive) return;
+    const rect = track.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = track.offsetHeight - vh;
+    const scrolled = Math.min(Math.max(-rect.top, 0), total);
+    const progress = total > 0 ? scrolled / total : 0; // 0..1 across whole track
+
+    // One smooth continuous pan across the whole chat body.
+    const max = getMaxScroll();
+    targetY = progress * max;
+
+    // Smooth lerp so scrolling feels anchored, not snappy
+    currentY += (targetY - currentY) * 0.14;
+    body.style.transform = 'translateY(' + (-currentY) + 'px)';
+
+    const { index, inScene } = activeSceneFromY(currentY);
+    applyScene(index, inScene);
+
+    rafId = requestAnimationFrame(update);
+  }
+
+  function init() {
+    if (mq.matches) setFallback();
+    else setDriver();
+  }
+
+  // Only drive when section is near the viewport (perf)
+  const askIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (!mq.matches) setDriver();
+      } else {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+    });
+  }, { rootMargin: '0px 0px 0px 0px', threshold: 0 });
+  askIO.observe(track);
+
+  if (mq.addEventListener) mq.addEventListener('change', init);
+  else if (mq.addListener) mq.addListener(init);
+
+  init();
+})();
+</script>
 
 </body>
 </html>
