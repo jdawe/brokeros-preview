@@ -1715,6 +1715,27 @@ nav {
 }
 .cta .hero-cta { justify-content: center; }
 
+/* ───────── SIGNUP FORM ───────── */
+#signup-form input::placeholder { color: rgba(250, 244, 228, 0.5); }
+#signup-form input:focus { border-color: var(--ochre-soft); background: rgba(250, 244, 228, 0.1); }
+@media (max-width: 600px) {
+  #signup-form > div { grid-template-columns: 1fr !important; }
+  #signup-form input[name="email"] { grid-column: span 1 !important; }
+}
+
+/* ───────── FAQ ───────── */
+.faq-list details summary::-webkit-details-marker { display: none; }
+.faq-list details[open] summary span:last-child { transform: rotate(45deg); }
+.faq-list details summary span:last-child { transition: transform 0.2s; display: inline-block; }
+
+/* ───────── TEAM + ROI + SAMPLES RESPONSIVE ───────── */
+@media (max-width: 900px) {
+  .team-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+}
+@media (max-width: 760px) {
+  .cta [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: 1fr !important; }
+}
+
 /* ───────── FOOTER ───────── */
 footer {
   padding: 44px 0;
@@ -2132,12 +2153,20 @@ footer {
   <div class="hero-grain"></div>
   <div class="container hero-inner">
     <div class="hero-eyebrow">The intelligence layer for modern brokerages</div>
-    <h1>See your brokerage <span class="line-break">clearly. <em class="accent-word">Every single day.</em></span></h1>
+    <h1>See the market <span class="line-break">move <em class="accent-word">before everyone else does.</em></span></h1>
     <p class="hero-sub">Every Monday morning, <span class="highlight">the reports that matter</span> — branded in your voice, delivered under your logo. The operating picture you should have had all along.</p>
+    <p style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 17px; color: var(--ink-soft); max-width: 60ch; margin-top: -28px; margin-bottom: 44px; line-height: 1.5;">Five reports plus a Monday Morning Brief at 7am, built from your MLS feed. Set up in fourteen days.</p>
     <div class="hero-cta">
       <a href="#cta" class="btn btn-primary">Start your week <span class="arrow">→</span></a>
       <a href="#imagine" class="btn btn-ghost">Read the story</a>
     </div>
+  </div>
+</section>
+
+<!-- ═══════ CREDIBILITY STRIP ═══════ -->
+<section style="padding: 32px 0; background: var(--cream); border-bottom: 1px solid var(--green-line);">
+  <div class="container" style="text-align: center;">
+    <div style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 20px; color: var(--green-ink); letter-spacing: -0.01em; line-height: 1.4;">Built inside Five Star Real Estate <span style="color: var(--ochre); margin: 0 8px;">·</span> 933 agents <span style="color: var(--ochre); margin: 0 8px;">·</span> 32 offices across Michigan &amp; Florida</div>
   </div>
 </section>
 
@@ -2146,11 +2175,11 @@ footer {
   <div class="ribbon-label">Sits alongside your stack. Built on RESO. Replaces nothing.</div>
   <div class="ribbon-track">
     <span>MLS</span>
+    <span>MoxiWorks</span>
     <span>LoneWolf</span>
-    <span>Your CRM</span>
-    <span>Your CMA</span>
-    <span>Your sign company</span>
-    <span>Your office tools</span>
+    <span>Skyslope</span>
+    <span>Dotloop</span>
+    <span>Google Workspace</span>
   </div>
 </section>
 
@@ -2159,30 +2188,30 @@ footer {
   <div class="container">
     <div class="section-kicker">The story · I</div>
     <h2>Imagine a world where your <em>data</em> works for you.</h2>
-    <p class="imagine-lede">Not the other way around. Six scenes from a brokerage running on BrokerOS.</p>
+    <p class="imagine-lede">Not the other way around. Six scenes from a brokerage running on BrokerOS — five Monday reports plus the Morning Brief that surfaces them.</p>
 
     <div class="scenes">
 
-      <!-- Scene 1 — Morning Briefing -->
+      <!-- Scene 1 — Monday Morning Brief -->
       <div class="scene fade-in">
         <div class="scene-copy">
-          <div class="scene-index">Scene 01 · The Morning</div>
-          <h3>You open your inbox. Your day is <em>already sorted.</em></h3>
-          <p>Every morning at 6:30am, every leader in your company gets a briefing shaped to their role. Birthdays. Closings. Agents to call. Deals at risk. Market movement. All of it, in one letter.</p>
+          <div class="scene-index">Scene 01 · Monday Morning Brief</div>
+          <h3>You open your inbox Monday. Your week is <em>already sorted.</em></h3>
+          <p>Every Monday at 6:30am, every leader in your company gets a brief shaped to their role. The week's celebrations. The agents to call. The deals at risk. The market read. Each report linked one tap away.</p>
           <p>No dashboards. No logins. No reports to run.</p>
-          <div class="scene-pull">"I used to spend the first hour of every day trying to figure out what happened yesterday. Now I know before I sit down."</div>
+          <div class="scene-pull">"I used to spend the first hour of every Monday trying to figure out what happened last week. Now I know before I sit down."</div>
         </div>
         <div class="mock">
           <div class="mock-chrome">
             <div class="mock-dots"><span></span><span></span><span></span></div>
             <div class="mock-chrome-meta">inbox · briefing@brokeros.ai</div>
-            <div>6:31 AM</div>
+            <div>6:31 AM · Mon</div>
           </div>
           <div class="mock-body">
-            <div class="mock-subject">Good morning, Paul. Here's your Tuesday.</div>
+            <div class="mock-subject">Good morning, Paul. Here's your week.</div>
             <div class="mock-meta">
-              <span>BrokerOS Daily · Broker edition</span>
-              <span>Apr 22 · 2026</span>
+              <span>BrokerOS Monday Brief · Broker edition</span>
+              <span>Apr 20 · 2026</span>
             </div>
             <div class="mock-hello">Three things worth your time before coffee. One celebration, one save, one opportunity.</div>
 
@@ -2283,7 +2312,7 @@ footer {
           <h3>You see the market move <em>before everyone else does.</em></h3>
           <p>Every Monday, a one-page picture of who's gaining and who's bleeding across your markets. Which competitor just lost three agents. Which brand is consolidating. Which broker in your zip is quietly accumulating producers.</p>
           <p>The competitive intelligence the franchise pages and the trade press will publish six weeks from now — landing in your inbox on Monday.</p>
-          <div class="scene-pull">"We knew Coldwell Banker was in trouble nine weeks before the trade press did. We hired two of their best in that window."</div>
+          <div class="scene-pull">"We knew a competitor was unraveling six weeks before the trade press did. We hired two of their best in that window."</div>
         </div>
         <div class="mock">
           <div class="mock-chrome">
@@ -2310,7 +2339,7 @@ footer {
               </thead>
               <tbody>
                 <tr>
-                  <td class="name">Coldwell Banker AJS</td>
+                  <td class="name">Westbrook Realty Group</td>
                   <td class="meta">Grand Rapids</td>
                   <td class="num cool">−7</td>
                   <td class="num"><span class="spark cool"><i style="height:16px"></i><i style="height:14px"></i><i style="height:11px"></i><i style="height:9px"></i><i style="height:7px"></i><i style="height:5px"></i></span></td>
@@ -2341,9 +2370,9 @@ footer {
             </table>
 
             <div class="card accent" style="margin-top: 22px;">
-              <div class="card-label">Why Coldwell Banker AJS, this week</div>
+              <div class="card-label">Why Westbrook, this week</div>
               <div class="card-title">Three of their top-20 left in the last 14 days</div>
-              <div class="card-text">Two went to eXp, one to an independent. Their roster has been quietly soft for nine weeks. Your recruiting watch list refreshed last night with five high-fit names from inside their roster.</div>
+              <div class="card-text">Two went to eXp, one to an independent. Their roster has been quietly soft for six weeks. Your recruiting watch list refreshed last night with five high-fit names from inside their roster.</div>
               <div class="card-actions">
                 <span class="chip primary">Open recruit watch</span>
                 <span class="chip">See the 12-week trend</span>
@@ -2524,7 +2553,7 @@ footer {
               <div class="timeline">
                 <div class="timeline-item hot"><span class="t">11:42</span><strong>The moment registers</strong>. First closing of Tom's career.</div>
                 <div class="timeline-item"><span class="t">11:43</span>First-Closing trigger fires, six pieces queued.</div>
-                <div class="timeline-item"><span class="t">11:44</span>Listing photo composed, social graphic generated.</div>
+                <div class="timeline-item"><span class="t">11:44</span>Property photo pulled from MLS, social graphic generated.</div>
                 <div class="timeline-item"><span class="t">11:45</span>Personal text from you, drafted in your voice.</div>
                 <div class="timeline-item"><span class="t">11:46</span>Office post composed, mentor tagged.</div>
                 <div class="timeline-item"><span class="t">11:47</span>Cake scheduled for tomorrow 9 AM, delivery confirmed.</div>
@@ -2581,7 +2610,7 @@ footer {
 <!-- ═══════ MANIFESTO ═══════ -->
 <section class="manifesto" id="manifesto">
   <div class="manifesto-content">
-    <div class="section-kicker" style="text-align:center; display:block;">Manifesto · V</div>
+    <div class="section-kicker" style="text-align:center; display:block;">Manifesto · III</div>
     <h2>For too long, the software running our industry has been built <em>for the industry.</em> Not for the people running it.</h2>
 
     <div class="manifesto-body">
@@ -2629,28 +2658,134 @@ footer {
     <div class="section-kicker" style="color: var(--ochre);">The team · IV</div>
     <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: clamp(44px, 5.6vw, 84px); font-weight: 300; color: var(--green-ink); line-height: 1.0; letter-spacing: -0.03em; max-width: 18ch; margin-bottom: 56px;">Three operators. <em style="color: var(--ochre); font-style: italic;">One product.</em></h2>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; max-width: 1080px;">
+    <div class="team-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; max-width: 1080px;">
 
       <div style="border-top: 1px solid var(--green-line); padding-top: 28px;">
+        <!-- TODO: drop team-paul.jpg into website/img/ (square, 400×400 min) -->
+        <img src="img/team-paul.jpg" alt="Paul Carlson" onerror="this.style.display='none'" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; background: var(--cream-soft); margin-bottom: 22px;">
         <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre); margin-bottom: 14px;">01 · Brokerage</div>
-        <h3 style="font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.012em; margin-bottom: 14px;">Paul Carlson</h3>
-        <p style="font-style: italic; font-family: 'Fraunces', Georgia, serif; color: var(--ink-soft); font-size: 15px; margin-bottom: 14px;">President, Five Star Real Estate</p>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; gap: 12px;">
+          <h3 style="font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.012em;">Paul Carlson</h3>
+          <a href="https://www.linkedin.com/in/paul-carlson-7378b610/" target="_blank" rel="noopener" aria-label="Paul Carlson on LinkedIn" style="color: var(--ink-mute); display: inline-flex; align-items: center; transition: color 0.2s;" onmouseover="this.style.color='var(--ochre)'" onmouseout="this.style.color='var(--ink-mute)'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11.01-4.11 2.06 2.06 0 010 4.11zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.73V1.72C24 .77 23.21 0 22.22 0z"/></svg>
+          </a>
+        </div>
+        <p style="font-style: italic; font-family: 'Fraunces', Georgia, serif; color: var(--ink-soft); font-size: 15px; margin-bottom: 14px;">President, Five Star Real Estate · 933 agents, 32 offices</p>
         <p style="color: var(--ink); font-size: 15.5px; line-height: 1.6;">Runs a 933-agent brokerage across 32 offices in Michigan and Florida. Owns the data pipelines and the brokerage anchor. BrokerOS reads the same MLS feed Paul's team runs on.</p>
       </div>
 
       <div style="border-top: 1px solid var(--green-line); padding-top: 28px;">
+        <!-- TODO: drop team-scott.jpg into website/img/ -->
+        <img src="img/team-scott.jpg" alt="Scott Leese" onerror="this.style.display='none'" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; background: var(--cream-soft); margin-bottom: 22px;">
         <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre); margin-bottom: 14px;">02 · Go-to-market</div>
-        <h3 style="font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.012em; margin-bottom: 14px;">Scott Leese</h3>
-        <p style="font-style: italic; font-family: 'Fraunces', Georgia, serif; color: var(--ink-soft); font-size: 15px; margin-bottom: 14px;">Sales playbook</p>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; gap: 12px;">
+          <h3 style="font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.012em;">Scott Leese</h3>
+          <a href="https://www.linkedin.com/in/scottleese/" target="_blank" rel="noopener" aria-label="Scott Leese on LinkedIn" style="color: var(--ink-mute); display: inline-flex; align-items: center; transition: color 0.2s;" onmouseover="this.style.color='var(--ochre)'" onmouseout="this.style.color='var(--ink-mute)'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11.01-4.11 2.06 2.06 0 010 4.11zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.73V1.72C24 .77 23.21 0 22.22 0z"/></svg>
+          </a>
+        </div>
+        <p style="font-style: italic; font-family: 'Fraunces', Georgia, serif; color: var(--ink-soft); font-size: 15px; margin-bottom: 14px;">GTM advisor · 150+ companies, 0-to-$25M ARR playbook</p>
         <p style="color: var(--ink); font-size: 15.5px; line-height: 1.6;">Brings the sales motion. Has scaled multiple SaaS go-to-markets from zero to category position. Knows how to put a $599-a-month line item on a broker's corporate card.</p>
       </div>
 
       <div style="border-top: 1px solid var(--green-line); padding-top: 28px;">
+        <!-- TODO: drop team-jonathan.jpg into website/img/ -->
+        <img src="img/team-jonathan.jpg" alt="Jonathan Dawe" onerror="this.style.display='none'" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; background: var(--cream-soft); margin-bottom: 22px;">
         <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre); margin-bottom: 14px;">03 · Product</div>
-        <h3 style="font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.012em; margin-bottom: 14px;">Jonathan Dawe</h3>
-        <p style="font-style: italic; font-family: 'Fraunces', Georgia, serif; color: var(--ink-soft); font-size: 15px; margin-bottom: 14px;">AI infrastructure and productization</p>
-        <p style="color: var(--ink); font-size: 15.5px; line-height: 1.6;">Builds the AI layer that turns MLS rows into a written briefing. Fifteen years in product leadership across enterprise SaaS. Treats AI infrastructure as a first-class product surface.</p>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; gap: 12px;">
+          <h3 style="font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.012em;">Jonathan Dawe</h3>
+          <a href="https://www.linkedin.com/in/jdawe/" target="_blank" rel="noopener" aria-label="Jonathan Dawe on LinkedIn" style="color: var(--ink-mute); display: inline-flex; align-items: center; transition: color 0.2s;" onmouseover="this.style.color='var(--ochre)'" onmouseout="this.style.color='var(--ink-mute)'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11.01-4.11 2.06 2.06 0 010 4.11zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.73V1.72C24 .77 23.21 0 22.22 0z"/></svg>
+          </a>
+        </div>
+        <p style="font-style: italic; font-family: 'Fraunces', Georgia, serif; color: var(--ink-soft); font-size: 15px; margin-bottom: 14px;">AI infrastructure · 15 years across PayPal, PAR, Speechify, Braze</p>
+        <p style="color: var(--ink); font-size: 15.5px; line-height: 1.6;">Builds the AI layer that turns MLS rows into a written briefing. Fifteen years shipping product across enterprise SaaS and consumer AI. Treats AI infrastructure as a first-class product surface.</p>
       </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ROI STRIP ═══════ -->
+<section style="padding: 100px 0; background: var(--cream); border-top: 1px solid var(--green-line); border-bottom: 1px solid var(--green-line);">
+  <div class="container">
+    <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre); margin-bottom: 28px; display: inline-block;">The math</div>
+    <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: clamp(36px, 4.6vw, 64px); font-weight: 300; color: var(--green-ink); line-height: 1.05; letter-spacing: -0.03em; max-width: 22ch; margin-bottom: 56px;">At $599 a month, <em style="color: var(--ochre); font-style: italic;">the payback is one move.</em></h2>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1080px;">
+      <div style="border-top: 1px solid var(--green-line); padding-top: 24px;">
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 38px; font-weight: 500; color: var(--ochre); line-height: 1; letter-spacing: -0.02em; margin-bottom: 14px;">1 agent saved</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ink-soft);">One retained agent doing $5M in volume covers the product for the next decade.</p>
+      </div>
+      <div style="border-top: 1px solid var(--green-line); padding-top: 24px;">
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 38px; font-weight: 500; color: var(--ochre); line-height: 1; letter-spacing: -0.02em; margin-bottom: 14px;">1 producer recruited</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ink-soft);">One recruited producer pays back the subscription in their first closing.</p>
+      </div>
+      <div style="border-top: 1px solid var(--green-line); padding-top: 24px;">
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 38px; font-weight: 500; color: var(--ochre); line-height: 1; letter-spacing: -0.02em; margin-bottom: 14px;">1 Monday call</div>
+        <p style="font-size: 15.5px; line-height: 1.6; color: var(--ink-soft);">One Monday recruit-watch call that wins beats six months of LinkedIn scrolling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ WHO THIS IS FOR ═══════ -->
+<section style="padding: 100px 0; background: var(--cream-soft); border-bottom: 1px solid var(--green-line);">
+  <div class="container-narrow" style="text-align: center;">
+    <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre); margin-bottom: 28px;">Who this is for</div>
+    <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: clamp(32px, 4.2vw, 52px); font-weight: 300; color: var(--green-ink); line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 32px;">Independent brokerages running <em style="color: var(--ochre); font-style: italic;">30 to 1,000 agents</em>, doing $50M+ in annual volume, in markets where we have MLS access.</h2>
+    <p style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 19px; color: var(--ink-soft); line-height: 1.5; max-width: 56ch; margin: 0 auto 18px auto;">Not for teams. Not for franchise offices reporting up. Not for sub-$50M shops trying to look bigger than they are.</p>
+    <p style="font-size: 15px; color: var(--ink-mute); font-family: 'JetBrains Mono', ui-monospace, monospace; letter-spacing: 0.06em;">Available now in Michigan, Florida, and select Sun Belt markets.</p>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section style="padding: 120px 0; background: var(--cream); border-bottom: 1px solid var(--green-line);">
+  <div class="container-narrow">
+    <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre); margin-bottom: 28px; display: inline-block;">Questions brokers ask</div>
+    <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: clamp(36px, 4.6vw, 60px); font-weight: 300; color: var(--green-ink); line-height: 1.05; letter-spacing: -0.03em; max-width: 18ch; margin-bottom: 56px;">Five questions, <em style="color: var(--ochre); font-style: italic;">answered.</em></h2>
+
+    <div class="faq-list" style="display: grid; gap: 4px;">
+
+      <details style="border-top: 1px solid var(--green-line); padding: 22px 0;">
+        <summary style="font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500; color: var(--green-ink); cursor: pointer; line-height: 1.3; letter-spacing: -0.015em; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <span>How long does setup take?</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--ochre); font-weight: 300;">+</span>
+        </summary>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ink-soft); margin-top: 18px; max-width: 60ch;">Fourteen days. We connect to your MLS via RESO Web API, ingest your roster from a single CSV, brand the templates in your voice, and ship the first Monday brief. No data migration, no IT involvement on your end, no consultants.</p>
+      </details>
+
+      <details style="border-top: 1px solid var(--green-line); padding: 22px 0;">
+        <summary style="font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500; color: var(--green-ink); cursor: pointer; line-height: 1.3; letter-spacing: -0.015em; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <span>Do you read or write to my systems?</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--ochre); font-weight: 300;">+</span>
+        </summary>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ink-soft); margin-top: 18px; max-width: 60ch;">Read-only. We pull from MLS and the systems you authorize. We never write back, never modify your transactions, never touch your CRM. We sit alongside your stack; we don't reach into it.</p>
+      </details>
+
+      <details style="border-top: 1px solid var(--green-line); padding: 22px 0;">
+        <summary style="font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500; color: var(--green-ink); cursor: pointer; line-height: 1.3; letter-spacing: -0.015em; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <span>Who owns the data?</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--ochre); font-weight: 300;">+</span>
+        </summary>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ink-soft); margin-top: 18px; max-width: 60ch;">You do. Your MLS data is yours under your board's license. Your roster and your reports are yours. We're a thin processing layer on top — nothing about your data leaves our environment, nothing gets sold, nothing gets used to train models.</p>
+      </details>
+
+      <details style="border-top: 1px solid var(--green-line); padding: 22px 0;">
+        <summary style="font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500; color: var(--green-ink); cursor: pointer; line-height: 1.3; letter-spacing: -0.015em; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <span>What happens if I cancel?</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--ochre); font-weight: 300;">+</span>
+        </summary>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ink-soft); margin-top: 18px; max-width: 60ch;">You keep every report we ever sent you. We turn off Monday delivery, delete our copy of your data, and you walk away with your archive. No exit fees, no exit interviews, no clawbacks.</p>
+      </details>
+
+      <details style="border-top: 1px solid var(--green-line); border-bottom: 1px solid var(--green-line); padding: 22px 0;">
+        <summary style="font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500; color: var(--green-ink); cursor: pointer; line-height: 1.3; letter-spacing: -0.015em; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <span>How is this different from the reports my MLS already sends?</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--ochre); font-weight: 300;">+</span>
+        </summary>
+        <p style="font-size: 16px; line-height: 1.65; color: var(--ink-soft); margin-top: 18px; max-width: 60ch;">Your MLS sends every broker the same boilerplate. Ours are written for your brokerage — branded in your voice, scoped to your zips, layered with your roster's production, and tuned to surface the moves that matter to you specifically. Same data, different reader.</p>
+      </details>
 
     </div>
   </div>
@@ -2659,10 +2794,50 @@ footer {
 <!-- ═══════ CTA ═══════ -->
 <section class="cta" id="cta">
   <div class="container">
-    <div class="section-kicker">Available now · VI</div>
+    <div class="section-kicker">Available now · V</div>
     <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 20px; opacity: 0.85;">Your weekly operating picture</div>
-    <h2>Five reports. Two utilities. <em>One Monday.</em></h2>
-    <p style="max-width: 60ch; margin-bottom: 36px;">Market. Brokerage Movement. Retention Pulse. Recruiting Watch. Celebrations. Plus Agent Lookup and Delivery History, always at hand. Built on your MLS feed. Branded in your voice. Running on your data in fourteen days — no migration, no rip-and-replace.</p>
+    <h2>Six reports. Two utilities. <em>One Monday.</em></h2>
+    <p style="max-width: 60ch; margin-bottom: 14px;">Monday Morning Brief. Market. Brokerage Movement. Retention Pulse. Recruiting Watch. Celebrations. Plus Agent Lookup and Delivery History, always at hand. Built on your MLS feed. Branded in your voice. Running on your data in fourteen days — no migration, no rip-and-replace.</p>
+    <p style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 18px; color: var(--ochre-soft); max-width: 60ch; margin-bottom: 48px; line-height: 1.45;">Recruit Watch: every Monday, the top producers in your zips you should be having coffee with.</p>
+
+    <!-- Sample report previews -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1000px; margin: 0 auto 56px auto;">
+
+      <div style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.18); border-radius: 6px; padding: 22px; text-align: left; min-height: 220px;">
+        <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 10px;">Sample · Monday 7:00 AM</div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 500; color: var(--cream-light); line-height: 1.25; margin-bottom: 12px; letter-spacing: -0.01em;">Recruit Watch · 49503</div>
+        <div style="font-size: 12px; line-height: 1.55; color: rgba(250, 244, 228, 0.68); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em;">
+          <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(244, 236, 216, 0.1);"><span>Rachel Moreno</span><span style="color: var(--ochre-soft);">$12.4M ▲</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(244, 236, 216, 0.1);"><span>Daniela Ortiz</span><span style="color: var(--ochre-soft);">$5.8M ▲</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(244, 236, 216, 0.1);"><span>Alex Thompson</span><span>$6.1M</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 5px 0;"><span>Priya Shah</span><span>$4.2M</span></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.18); border-radius: 6px; padding: 22px; text-align: left; min-height: 220px;">
+        <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 10px;">Sample · Monday 7:00 AM</div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 500; color: var(--cream-light); line-height: 1.25; margin-bottom: 12px; letter-spacing: -0.01em;">Retention Pulse</div>
+        <div style="font-size: 12px; line-height: 1.55; color: rgba(250, 244, 228, 0.68); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em;">
+          <div style="padding: 6px 0; border-bottom: 1px solid rgba(244, 236, 216, 0.1);"><span style="color: #C86C5A;">● Critical</span> · Jessica Park · 91 days silent</div>
+          <div style="padding: 6px 0; border-bottom: 1px solid rgba(244, 236, 216, 0.1);"><span style="color: var(--ochre-soft);">● Warning</span> · Mark Stephens · −58% YoY</div>
+          <div style="padding: 6px 0;"><span style="color: rgba(250, 244, 228, 0.5);">● Early</span> · Derek Alves · −40% pipeline</div>
+        </div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 12px; color: rgba(250, 244, 228, 0.55); margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(244, 236, 216, 0.12);">3 of 214 agents flagged · drafts ready</div>
+      </div>
+
+      <div style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.18); border-radius: 6px; padding: 22px; text-align: left; min-height: 220px;">
+        <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 10px;">Sample · Monday 7:00 AM</div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 500; color: var(--cream-light); line-height: 1.25; margin-bottom: 12px; letter-spacing: -0.01em;">Market Monday · GR Metro</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; font-size: 11.5px; color: rgba(250, 244, 228, 0.68); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em;">
+          <div><div style="opacity: 0.6; font-size: 10px;">Median price</div><div style="color: var(--ochre-soft); font-size: 16px; font-family: 'Fraunces', serif; font-style: italic;">$341K</div></div>
+          <div><div style="opacity: 0.6; font-size: 10px;">Active listings</div><div style="color: var(--cream-light); font-size: 16px; font-family: 'Fraunces', serif; font-style: italic;">412</div></div>
+          <div><div style="opacity: 0.6; font-size: 10px;">Days on market</div><div style="color: var(--cream-light); font-size: 16px; font-family: 'Fraunces', serif; font-style: italic;">14</div></div>
+          <div><div style="opacity: 0.6; font-size: 10px;">30-yr fixed</div><div style="color: var(--cream-light); font-size: 16px; font-family: 'Fraunces', serif; font-style: italic;">6.78%</div></div>
+        </div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 12px; color: rgba(250, 244, 228, 0.55); margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(244, 236, 216, 0.12);">49503 and 49546 warming · absorption +18%</div>
+      </div>
+
+    </div>
 
     <div style="background: rgba(244, 236, 216, 0.08); border: 1px solid rgba(244, 236, 216, 0.18); border-radius: 4px; padding: 36px 32px; max-width: 520px; margin: 0 auto 32px auto; text-align: center;">
       <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 18px; opacity: 0.9;">Pricing</div>
@@ -2671,8 +2846,21 @@ footer {
       <div style="font-size: 13px; color: var(--cream-light); opacity: 0.62; line-height: 1.6;">No per-agent math. No setup fee. No annual contract. Locked in for the first 30 customers.</div>
     </div>
 
-    <div class="hero-cta">
-      <a href="mailto:hello@brokeros.ai?subject=Start%20BrokerOS" class="btn btn-primary" style="background: var(--cream-light); color: var(--green-ink);">Start your week <span class="arrow">→</span></a>
+    <!-- Signup form (replaces mailto). TODO: wire to Formspree/HubSpot/Stripe checkout. -->
+    <form id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="background: rgba(244, 236, 216, 0.05); border: 1px solid rgba(244, 236, 216, 0.18); border-radius: 6px; padding: 32px; max-width: 520px; margin: 0 auto 28px auto;">
+      <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ochre-soft); margin-bottom: 22px; opacity: 0.9; text-align: center;">Start your week</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; margin-bottom: 18px;">
+        <input type="text" name="name" placeholder="Your name" required style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.25); border-radius: 4px; padding: 12px 14px; color: var(--cream-light); font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+        <input type="text" name="brokerage" placeholder="Brokerage" required style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.25); border-radius: 4px; padding: 12px 14px; color: var(--cream-light); font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+        <input type="text" name="role" placeholder="Your role" required style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.25); border-radius: 4px; padding: 12px 14px; color: var(--cream-light); font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+        <input type="text" name="mls" placeholder="Your MLS (e.g. MichRIC)" required style="background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.25); border-radius: 4px; padding: 12px 14px; color: var(--cream-light); font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+        <input type="email" name="email" placeholder="Email" required style="grid-column: span 2; background: rgba(250, 244, 228, 0.06); border: 1px solid rgba(244, 236, 216, 0.25); border-radius: 4px; padding: 12px 14px; color: var(--cream-light); font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+      </div>
+      <button type="submit" class="btn btn-primary" style="background: var(--cream-light); color: var(--green-ink); width: 100%; justify-content: center; padding: 14px 26px;">Start your week <span class="arrow">→</span></button>
+      <p style="font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 13px; color: var(--cream-light); opacity: 0.7; text-align: center; margin-top: 18px; line-height: 1.5;">First reports the following Monday at 7am. No card required to start.</p>
+    </form>
+
+    <div class="hero-cta" style="justify-content: center;">
       <a href="#imagine" class="btn btn-ghost on-dark">See the product tour</a>
     </div>
   </div>
@@ -2681,7 +2869,7 @@ footer {
 <footer>
   <div class="container footer-inner">
     <div>BrokerOS · Built by brokers, for brokers.</div>
-    <div><a href="mailto:hello@brokeros.ai">hello@brokeros.ai</a> · © 2026</div>
+    <div><a href="#cta">Start your week</a> · © 2026</div>
   </div>
 </footer>
 
